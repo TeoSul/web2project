@@ -9,3 +9,9 @@ if (sessionStorage.getItem("login") != null)
         </ul>
     `);
 }
+
+$(document).ready(function () {
+    $.ajax({
+        url: "/games"
+    })
+})
