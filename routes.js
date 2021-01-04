@@ -28,11 +28,26 @@ var routes = function () {
 
     router.post('/register', function (req, res) {
         var data = req.body;
+    
+        var email = document.forms["registration"]["email"].value;
+
+        var emailCheck = db.getUser(email, function(err, user) {
+            res.send(user);
+        });
         
-        db.addUser(data.username, data.name, data.email, data.password,
-                            function (err, user) {
-                                res.redirect('back');
-                            })
+        if (emailCheck === null)
+        {
+            db.addUser(data.username, data.name, data.email, data.password,
+                function (err, user) {
+                    res.redirect('back');
+                });
+        }
+
+        else
+        {
+            res.redirect('back');
+            $("#emailExist").append(`An account with the email already exists.`);
+        }
     });
 
     return router;

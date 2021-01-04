@@ -68,6 +68,10 @@ var database = {
         });
 
         newUser.save(callback);
+    },
+
+    getUser : function(id, callback) {
+        userModel.findById(id, callback);
     }
 };
 
