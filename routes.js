@@ -1,4 +1,5 @@
 var bodyParser = require('body-parser');
+const e = require('express');
 var db = require('./services/dataservice.js');
 
 db.connect();
@@ -31,25 +32,34 @@ var routes = function () {
     
         var email = data.email;
 
-        var emailCheck = db.getUser(email, function(err, user) {
-            res.send(user);
+        var emailCheck;
+
+        db.getUserByE(email, function(err, user) {     
+            if (user === null || user === undefined)
+            {
+                emailCheck = false;
+            }
+
+            else
+            {
+                emailCheck = true;
+            }
+
+            console.log("Email Check: " + emailCheck);
+
+            if (emailCheck === false || emailCheck === undefined || emailCheck === null)
+            {
+                db.addUser(data.username, data.name, data.email, data.password,
+                    function (err, user) {
+                        res.redirect('../login');
+                    });
+            }
+
+            else
+            {
+                res.redirect('../register/invalidEmail');
+            }
         });
-
-        console.log(emailCheck);
-        
-        if (emailCheck === undefined || emailCheck === null)
-        {
-            db.addUser(data.username, data.name, data.email, data.password,
-                function (err, user) {
-                    res.redirect('../login');
-                });
-        }
-
-        else
-        {
-            res.redirect('back');
-            $("#emailExist").append(`An account with the email already exists.`);
-        }
     });
 
     router.get('/login', function (req, res) {
@@ -57,7 +67,52 @@ var routes = function () {
     });
 
     router.post('/login', function (req, res) {
-        
+        var data = req.body;
+
+        var email = data.email;
+        var password = data.password;
+
+        var userCheck;
+
+        db.getUserByEP(email, password, function (err, user) {
+            
+            console.log(user);
+            if (user === null || user === undefined)
+            {
+                userCheck = false;
+            }
+
+            else
+            {
+                userCheck = true;
+            }
+            
+            console.log("User Check: " + userCheck);
+
+            if (userCheck === true)
+            {
+                sessionStorage.setItem("login", true);
+                
+                db.getUserByE(email, function(err, user) {
+                    Object.entries(user).map([key, value]);
+
+                    var userId = user.userid;
+
+                    console.log(Object.entries(user).map([key, value]));
+
+                    sessionStorage.setItem("userId", userId);
+
+                    console.log("User ID: " + userId);
+                })
+
+                res.redirect("../");
+            }
+
+            else
+            {
+                res.redirect("../login/invalid");
+            }
+        });
     })
 
     return router;

@@ -34,7 +34,7 @@ var database = {
                 });
 
                 gameSchema = schema({
-                    _id: 0,
+                    gameid: Number,
                     name: String,
                     genre: String,
                     price: Number
@@ -70,8 +70,14 @@ var database = {
         newUser.save(callback);
     },
 
-    getUser : function(id, callback) {
-        userModel.findById(id, callback);
+    //By email only
+    getUserByE : function(rEmail, callback) {
+        userModel.find({email: rEmail}, callback);
+    },
+
+    //By email & password
+    getUserByEP : function(lEmail, lPassword, callback) {
+        userModel.find({email: lEmail, password: lPassword});
     }
 };
 
