@@ -29,17 +29,19 @@ var routes = function () {
     router.post('/register', function (req, res) {
         var data = req.body;
     
-        var email = document.forms["registration"]["email"].value;
+        var email = data.email;
 
         var emailCheck = db.getUser(email, function(err, user) {
             res.send(user);
         });
+
+        console.log(emailCheck);
         
-        if (emailCheck === null)
+        if (emailCheck === undefined || emailCheck === null)
         {
             db.addUser(data.username, data.name, data.email, data.password,
                 function (err, user) {
-                    res.redirect('back');
+                    res.redirect('../login');
                 });
         }
 
@@ -49,6 +51,14 @@ var routes = function () {
             $("#emailExist").append(`An account with the email already exists.`);
         }
     });
+
+    router.get('/login', function (req, res) {
+        res.sendFile(__dirname + "/views/login.html");
+    });
+
+    router.post('/login', function (req, res) {
+        
+    })
 
     return router;
 

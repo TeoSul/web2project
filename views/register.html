@@ -24,19 +24,19 @@
 
             <form name="registration" method="post" action="/register" onsubmit="return validateRegister();">
                 <label>Email Address: </label>
-                <input type="email" name="email" required/><br/><br/>
+                <input type="email" id="rEmail" name="email" required/><br/><br/>
 
                 <label>Username: </label>
-                <input type="text" name="username" required/><br/><br/>
+                <input type="text" id="rUsername" name="username" required/><br/><br/>
 
                 <label>Name: </label>
-                <input type="text" name="name" required/><br/><br/>
+                <input type="text" id="rName" name="name" required/><br/><br/>
 
                 <label>Password: </label>
-                <input type="password" name="password" required/><br/><br/>
+                <input type="password" id="rPassword" name="password" required/><br/><br/>
 
                 <label>Confirm Password: </label>
-                <input type="confirmPassword" name="confirmPassword" required/><br/><br/>
+                <input type="password" id="rConfirmPassword" name="confirmPassword" required/><br/><br/>
 
                 <input type="submit" value="Register"/>
             </form>
