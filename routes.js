@@ -69,8 +69,8 @@ var routes = function () {
     router.post('/login', function (req, res) {
         var data = req.body;
 
-        var email = data.email;
-        var password = data.password;
+        var email = data.lEmail;
+        var password = data.lPassword;
 
         var userCheck;
 
@@ -91,26 +91,22 @@ var routes = function () {
 
             if (userCheck === true)
             {
-                sessionStorage.setItem("login", true);
-                
+                var sessionStorage;
+
+                var userId;
+
                 db.getUserByE(email, function(err, user) {
-                    Object.entries(user).map([key, value]);
+                    if (user === null || user === undefined)
+                    {
+                        res.redirect('/login/invalid');
+                    }
 
-                    var userId = user.userid;
-
-                    console.log(Object.entries(user).map([key, value]));
-
-                    sessionStorage.setItem("userId", userId);
-
-                    console.log("User ID: " + userId);
+                    else
+                    {
+                        res.send({"userid": user.userid});
+                        console.log(res);
+                    }
                 })
-
-                res.redirect("../");
-            }
-
-            else
-            {
-                res.redirect("../login/invalid");
             }
         });
     })

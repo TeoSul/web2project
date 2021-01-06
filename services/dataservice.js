@@ -77,7 +77,7 @@ var database = {
 
     //By email & password
     getUserByEP : function(lEmail, lPassword, callback) {
-        userModel.find({email: lEmail, password: lPassword});
+        userModel.find({email: lEmail, password: lPassword}, callback);
     }
 };
 

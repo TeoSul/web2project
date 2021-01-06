@@ -2,6 +2,7 @@
 
 <html>
     <head>
+        <script src="/js/login.js"></script>
         <script src='/js/jquery.min.js'></script>
     </head>
 
@@ -9,14 +10,16 @@
         <main>
 
         <section>
+            <h1>Login</h1>
+            
             <form method="post" action="/login">
                 <label>Email Address: </label>
-                <input type="email" name="lEmail"><br/><br/>
+                <input type="email" id="#lEmail" name="lEmail"><br/><br/>
 
                 <label>Password: </label>
-                <input type="password" name="lPassword"><br/><br/>
+                <input type="password" id="#lPassword" name="lPassword"><br/><br/>
 
-                <input type="submit" value="Login">
+                <input type="submit" value="Login"><br/>
                 <a href="resetPassword.html">Forgot Password?</a>
             </form>
         </section>
