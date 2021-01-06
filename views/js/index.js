@@ -19,8 +19,38 @@ $(document).ready(function() {
 
     .done(
         function (response) {
-            sessionStorage.setItem("login", true);
-            sessionStorage.setItem("userId", response.userId);
+
+            console.log(response);
+
+            if (response.userid != null || response.userid != undefined)
+            {
+                sessionStorage.setItem("userId", response.userid);
+
+                if (sessionStorage.getItem("userId") != null || sessionStorage.getItem("userId") != undefined)
+                {
+                    sessionStorage.setItem("login", true);
+
+                    if (sessionStorage.getItem("login") === true)
+                    {
+                        window.location.href = '/';
+                    }
+
+                    else
+                    {
+                        window.location.reload();
+                    }
+                }
+
+                else
+                {
+                    window.location.reload();
+                }
+            }
+
+            else
+            {
+                window.location.reload();
+            }
         }
     )
 
@@ -29,4 +59,29 @@ $(document).ready(function() {
             console.log(err.responseText);
         }
     );
+
+    $.ajax({
+        url: "/games",
+        method:"get"
+    })
+
+    .done(
+        function (data) {
+            data.forEach(function(game) {
+                $(".games").append(`
+                <tr>
+                <td>${game.name}</td>
+                <td>${game.genre}</td>
+                <td>${game.price}</td>
+                <td>
+                </tr>`)
+            })
+        }
+    )
+
+    .fail(
+        function (err) {
+            console.log(err.responseText);
+        }
+    )
 })

@@ -91,22 +91,12 @@ var routes = function () {
 
             if (userCheck === true)
             {
-                var sessionStorage;
+                res.send({"userid": user.userid});
+            }
 
-                var userId;
-
-                db.getUserByE(email, function(err, user) {
-                    if (user === null || user === undefined)
-                    {
-                        res.redirect('/login/invalid');
-                    }
-
-                    else
-                    {
-                        res.send({"userid": user.userid});
-                        console.log(res);
-                    }
-                })
+            else
+            {
+                res.redirect('/login/invalid');
             }
         });
     })
