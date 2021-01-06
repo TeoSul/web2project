@@ -78,6 +78,11 @@ var database = {
     //By email & password
     getUserByEP : function(lEmail, lPassword, callback) {
         userModel.find({email: lEmail, password: lPassword}, callback);
+    },
+
+    //Get all games
+    getAllGames: function(callback) {
+        gameModel.find({}, callback);
     }
 };
 
