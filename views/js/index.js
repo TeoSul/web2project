@@ -4,13 +4,39 @@ $(document).ready(function() {
     {
         $(".navigation").append(`
             <ul>
-                <li>Home</li>
+                <li><a href="/">LOGO</a></li>
+                <li><a href="/">Home</a></li>
                 <li>Test</li>
-                <li>Profile</li>
-                <li>Log Out</li>
+                <li><a href="/profile>Profile</a></li>
+                <li><a href="/" class="logout">Log Out</a></li>
             </ul>
         `);
     }
+
+    $.ajax({
+        url: "/",
+        method:"get"
+    })
+
+    .done(
+        function (data) {
+            data.forEach(function(game) {
+                $(".games").append(`
+                <tr>
+                <td>${game.name}</td>
+                <td>${game.genre}</td>
+                <td>${game.price}</td>
+                <td>TEST</td>
+                </tr>`)
+            })
+        }
+    )
+
+    .fail(
+        function (err) {
+            console.log(err.responseText);
+        }
+    );
 
     $.ajax({
         url: "/login",
@@ -19,8 +45,6 @@ $(document).ready(function() {
 
     .done(
         function (response) {
-
-            console.log(response);
 
             if (response.userid != null || response.userid != undefined)
             {
@@ -60,28 +84,8 @@ $(document).ready(function() {
         }
     );
 
-    $.ajax({
-        url: "/games",
-        method:"get"
-    })
-
-    .done(
-        function (data) {
-            data.forEach(function(game) {
-                $(".games").append(`
-                <tr>
-                <td>${game.name}</td>
-                <td>${game.genre}</td>
-                <td>${game.price}</td>
-                <td>
-                </tr>`)
-            })
-        }
-    )
-
-    .fail(
-        function (err) {
-            console.log(err.responseText);
-        }
-    )
+    $(".logOut").click(function(){
+        sessionStorage.clear();
+        window.location.reload();
+    });
 })

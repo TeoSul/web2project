@@ -11,22 +11,34 @@ var routes = function () {
         extended: true
     }));
 
+    //Homepage
     router.get('/', function (req, res) {
         res.sendFile(__dirname + "/views/index.html");
     });
 
+    //CSS
     router.get('/css/*', function(req, res) {
         res.sendFile(__dirname + "/views/" + req.originalUrl);
     });
 
+    //JavaScript Files
     router.get('/js/*', function(req, res) {
         res.sendFile(__dirname + "/views/" + req.originalUrl);
     });
 
+    //Get all games
+    router.get('/games', function(req, res) {
+        db.getAllGames(function (err, games) {
+            res.send(games);
+        })
+    })
+
+    //Registration Page
     router.get('/register', function(req,res) {
         res.sendFile(__dirname + "/views/register.html");
     });
 
+    //Send Registration Input from User
     router.post('/register', function (req, res) {
         var data = req.body;
     
@@ -34,8 +46,9 @@ var routes = function () {
 
         var emailCheck;
 
-        db.getUserByE(email, function(err, user) {     
-            if (user === null || user === undefined)
+        db.getUserByE(email, function(err, user) {  
+            console.log(user);   
+            if (Object.keys(user).length < 1 || user === null || user === undefined)
             {
                 emailCheck = false;
             }
@@ -51,7 +64,8 @@ var routes = function () {
             {
                 db.addUser(data.username, data.name, data.email, data.password,
                     function (err, user) {
-                        res.redirect('../login');
+                        console.log("Registered User: " + user);
+                        res.send({"userid" : user.userid});
                     });
             }
 
@@ -62,10 +76,12 @@ var routes = function () {
         });
     });
 
+    //Login Page
     router.get('/login', function (req, res) {
         res.sendFile(__dirname + "/views/login.html");
     });
 
+    //Send Login Input from User
     router.post('/login', function (req, res) {
         var data = req.body;
 

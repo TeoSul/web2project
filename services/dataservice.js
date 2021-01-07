@@ -49,8 +49,6 @@ var database = {
 
                 userModel = connection.model("users", userSchema);
                 gameModel = connection.model("games", gameSchema);
-
-                
             }
 
             else {
