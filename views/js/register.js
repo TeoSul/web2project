@@ -9,6 +9,34 @@ function validateRegister() {
 
     if (password === confirmPassword)
     {
+        $ajax({
+            url:"/register",
+            method:"post"
+        })
+    
+        .done(
+            function(response) {
+                if (response != undefined || response != null)
+                {
+                    sessionStorage.setItem("register", true);
+                    windows.location.href = '/login';
+                }
+    
+                else
+                {
+                    $(".rStatusMessageF").append(`
+                    A user already exists with that email. Please try again with a different email.
+                    `);
+                }
+            }
+        )
+    
+        .fail(
+            function(err) {
+                console.log(err.responseText);
+            }
+        );
+
         return true;
     }
 

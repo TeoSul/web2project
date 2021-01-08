@@ -16,6 +16,10 @@ var routes = function () {
         res.sendFile(__dirname + "/views/index.html");
     });
 
+    router.get('/logout', function(req, res) {
+        res.sendFile(__dirname + "/views/logout.html");
+    });
+
     //CSS
     router.get('/css/*', function(req, res) {
         res.sendFile(__dirname + "/views/" + req.originalUrl);
@@ -26,12 +30,11 @@ var routes = function () {
         res.sendFile(__dirname + "/views/" + req.originalUrl);
     });
 
-    //Get all games
-    router.get('/games', function(req, res) {
+    router.get('/api/games', function(req, res) {
         db.getAllGames(function (err, games) {
             res.send(games);
         })
-    })
+    });
 
     //Registration Page
     router.get('/register', function(req,res) {
@@ -39,7 +42,7 @@ var routes = function () {
     });
 
     //Send Registration Input from User
-    router.post('/register', function (req, res) {
+    router.post('/api/register', function (req, res) {
         var data = req.body;
     
         var email = data.email;
@@ -64,14 +67,13 @@ var routes = function () {
             {
                 db.addUser(data.username, data.name, data.email, data.password,
                     function (err, user) {
-                        console.log("Registered User: " + user);
-                        res.send({"userid" : user.userid});
+                        res.send({"register" : true});
                     });
             }
 
             else
             {
-                res.redirect('../register/invalidEmail');
+                res.send({});
             }
         });
     });
@@ -82,7 +84,7 @@ var routes = function () {
     });
 
     //Send Login Input from User
-    router.post('/login', function (req, res) {
+    router.post('/api/login', function (req, res) {
         var data = req.body;
 
         var email = data.lEmail;
@@ -92,8 +94,7 @@ var routes = function () {
 
         db.getUserByEP(email, password, function (err, user) {
             
-            console.log(user);
-            if (user === null || user === undefined)
+            if (Object.keys(user).length < 1 || user === undefined || user === null)
             {
                 userCheck = false;
             }
@@ -107,12 +108,14 @@ var routes = function () {
 
             if (userCheck === true)
             {
-                res.send({"userid": user.userid});
+                console.log(user.userid);
+                res.json({"login" : true,
+                    "userid": user.userid});
             }
 
             else
             {
-                res.redirect('/login/invalid');
+                res.json({"login": false});
             }
         });
     })

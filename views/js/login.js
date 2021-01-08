@@ -1,38 +1,82 @@
-const database = require("../../services/dataservice");
-
 $(document).ready(function() {
+    if (sessionStorage.getItem("register") === true)
+    {
+        $(".statusMessage").append(`
+        You have successfully created an account! Proceed to login below!
+        `);
+    }
+
     if (sessionStorage.getItem("login") === true)
     {
         alert("You are already logged in!");
-        window.location.href('/');
+        // window.location.href('/');
+    }
+})
+
+function login() {
+
+    var login = {
+        lEmail : $("#lEmail").val(),
+        lPassword: $("#lPassword").val()
     }
 
-    $ajax({
-        url:"/register",
-        method:"post"
+    $.ajax({
+        url: "/api/login",
+        type:"post",
+        data: login
     })
 
     .done(
-        function(response) {
-            if (response != null || response != undefined)
+        function (response) {
+            console.log(response.userid);
+
+            if (response.userid != undefined)
             {
-                $(".statusMessage").append(`
-                You have successfully created an account! Proceed to login below!
-                `);
+                sessionStorage.setItem("userId", response.userid);
+
+                console.log(sessionStorage.getItem("userId"));
+
+                if (sessionStorage.getItem("userId") != undefined)
+                {
+                    sessionStorage.setItem("login", true);
+
+                    console.log(sessionStorage.getItem("login"));
+
+                    if (sessionStorage.getItem("login"))
+                    {
+                        window.location.href = "/";
+                    }
+
+                    else
+                    {
+                        $(".statusMessage").append(`
+                        An error has occurred. Please try again later.
+                        `);
+                    }
+                }
+
+                else
+                {
+                    $(".statusMessage").append(`
+                    An error has occurred. Please try again later.
+                    `);
+                }
             }
 
             else
             {
-                var registerStatus = false;
-                sessionStorage.setItem("register", registerStatus);
-                windows.location.href = '/register';
+                $(".statusMessage").append(`
+                You have entered an invalid username or password. Please try again.
+                `);
             }
         }
     )
 
     .fail(
-        function(err) {
+        function (err) {
             console.log(err.responseText);
         }
-    )
-})
+    );
+
+    return false;
+}
