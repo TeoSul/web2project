@@ -25,6 +25,7 @@ $(document).ready(function() {
             data.forEach(function(game) {
                 $(".games").append(`
                 <tr>
+                <td><img src="${game.image}/></td>
                 <td>${game.name}</td>
                 <td>${game.genre}</td>
                 <td>${game.price}</td>

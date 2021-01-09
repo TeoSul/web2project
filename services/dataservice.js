@@ -30,11 +30,15 @@ var database = {
                     username: String,
                     name: String,
                     email: String,
-                    password: String
+                    password: String,
+                    allowTracking: String,
+                    banned: String
+
                 });
 
                 gameSchema = schema({
                     gameid: Number,
+                    image: String,
                     name: String,
                     genre: String,
                     price: Number
@@ -57,12 +61,14 @@ var database = {
         })
     },
 
-    addUser : function (un, n, em, p, callback) {
+    addUser : function (un, n, em, p, at, b, callback) {
         var newUser = new userModel({
             username: un,
             name: n,
             email: em,
-            password: p
+            password: p,
+            allowTracking: at,
+            banned: b
         });
 
         newUser.save(callback);
@@ -81,6 +87,11 @@ var database = {
     //Get all games
     getAllGames: function(callback) {
         gameModel.find({}, callback);
+    },
+
+    //Search for games
+    searchGame: function(callback) {
+
     }
 };
 

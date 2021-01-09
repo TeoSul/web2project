@@ -118,7 +118,16 @@ var routes = function () {
                 res.json({"login": false});
             }
         });
-    })
+    });
+
+    //Send Search Input from User
+    router.post('/api/search', function (req, res) {
+        var data = req.body;
+        
+        var searchInput = data.searchPanel;
+    });
+
+
 
     return router;
 
