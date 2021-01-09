@@ -13,6 +13,7 @@ $(document).ready(function() {
         `);
     }
 
+    //Get All Games
     $.ajax({
         url: "/api/games",
         method:"get"
@@ -23,14 +24,15 @@ $(document).ready(function() {
 
             console.log(data);
             data.forEach(function(game) {
+                console.log(game);
                 $(".games").append(`
                 <tr>
-                <td><img src="${game.image}/></td>
+                <td><img src="${game.image}"/></td>
                 <td>${game.name}</td>
                 <td>${game.genre}</td>
-                <td>${game.price}</td>
+                <td>$${game.price}</td>
                 <td>TEST</td>
-                </tr>`)
+                </tr>`);
             })
         }
     )
@@ -41,3 +43,39 @@ $(document).ready(function() {
         }
     );
 })
+
+//Search Games
+function search() {
+
+    var search = $("#searchPanel").val();
+
+    $.ajax({
+        url: "/api/search",
+        type:"post",
+        data: {searchName: search}
+    })
+
+    .done(
+        function (games) {
+            console.log(games);
+            games.forEach(function(game) {
+                $(".games").html(`
+                <tr>
+                <td><img src="${game.image}"/></td>
+                <td>${game.name}</td>
+                <td>${game.genre}</td>
+                <td>$${game.price}</td>
+                <td>TEST</td>
+                </tr>`);
+            })
+        }
+    )
+
+    .fail(
+        function (err) {
+            console.log(err.responseText);
+        }
+    );
+
+    return false;
+}

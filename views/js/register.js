@@ -1,7 +1,3 @@
-$(document).ready(function() {
-
-})
-
 function validateRegister() {
     var password = document.forms["registration"]["password"].value;
 
@@ -9,9 +5,17 @@ function validateRegister() {
 
     if (password === confirmPassword)
     {
-        $ajax({
-            url:"/register",
-            method:"post"
+        var userInfo = {
+            username: $('#rUsername').val(),
+            name: $('#rName').val(),
+            email: $('#rEmail').val(),
+            password: $('#rPassword').val(),
+        }
+        
+        $.ajax({
+            url:"/api/register",
+            method:"post",
+            data: userInfo
         })
     
         .done(
@@ -19,7 +23,8 @@ function validateRegister() {
                 if (response != undefined || response != null)
                 {
                     sessionStorage.setItem("register", true);
-                    windows.location.href = '/login';
+                    
+                    window.location.href = '/login';
                 }
     
                 else
@@ -37,7 +42,7 @@ function validateRegister() {
             }
         );
 
-        return true;
+        return false;
     }
 
     else

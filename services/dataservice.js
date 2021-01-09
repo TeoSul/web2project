@@ -31,8 +31,8 @@ var database = {
                     name: String,
                     email: String,
                     password: String,
-                    allowTracking: String,
-                    banned: String
+                    allowTracking: Boolean,
+                    banned: Boolean
 
                 });
 
@@ -53,6 +53,7 @@ var database = {
 
                 userModel = connection.model("users", userSchema);
                 gameModel = connection.model("games", gameSchema);
+            
             }
 
             else {
@@ -61,14 +62,14 @@ var database = {
         })
     },
 
-    addUser : function (un, n, em, p, at, b, callback) {
+    addUser : function (un, n, em, p, callback) {
         var newUser = new userModel({
             username: un,
             name: n,
             email: em,
             password: p,
-            allowTracking: at,
-            banned: b
+            allowTracking: true,
+            banned: false
         });
 
         newUser.save(callback);
@@ -90,8 +91,13 @@ var database = {
     },
 
     //Search for games
-    searchGame: function(callback) {
+    searchGame: function(gn, callback) {
+        gameModel.find({name: new RegExp(gn, 'i')}, callback);
+    },
 
+    //Get Profile
+    getProfile: function(uid, callback) {
+        userModel.findOne({userid: uid});
     }
 };
 

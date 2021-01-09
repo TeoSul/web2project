@@ -30,6 +30,27 @@ var routes = function () {
         res.sendFile(__dirname + "/views/" + req.originalUrl);
     });
 
+    router.get('/images/*', function(req, res) {
+        res.sendFile(__dirname + "/views/" + req.originalUrl);
+    });
+
+    router.get('/api/profile/:uid', function(req, res){
+        var userid = req.params.uid;
+
+        db.getProfile(userid, function (err, user) {
+            if (err)
+            {
+                res.status(500).send("Unable to load profile. Please try again later");
+            }
+
+            else
+            {
+                res.status(200).send(user);
+            }
+        });
+    })
+
+    //Get All Games
     router.get('/api/games', function(req, res) {
         db.getAllGames(function (err, games) {
             res.send(games);
@@ -122,9 +143,18 @@ var routes = function () {
 
     //Send Search Input from User
     router.post('/api/search', function (req, res) {
-        var data = req.body;
-        
-        var searchInput = data.searchPanel;
+        var name = req.body.searchName;
+
+        db.searchGame(name, function(err, games) {
+            if (err) {
+                res.status(500).send("Unable to search for games. Please try again later");
+            }
+
+            else
+            {
+                res.status(200).send(games);
+            }
+        })
     });
 
 

@@ -23,22 +23,27 @@
 
         <section>
             <div>
-                <form action="/search" method="post">
-                    <input type="text" name="searchPanel"/>
+                <form onsubmit="return search()">
+                    <input type="text" id="searchPanel" name="searchPanel"/>
                     <input type="submit" name="searchSubmit" value="Search"/>
                 </form>
             </div>
         </section>
 
         <section>
-            <table class="games">
-                <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Genre</th>
-                    <th>Price</th>
-                    <th></th>
-                </tr>
+            <table border="1" style="border-collapse:collapse; width: 100%; text-align: center;">
+                <thead>
+                    <tr>
+                        <th style="width: 40%;"></th>
+                        <th >Name</th>
+                        <th>Genre</th>
+                        <th>Price</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class="games">
+                </tbody>
+                
                 
             </table>
         </section>
