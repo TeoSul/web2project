@@ -1,4 +1,6 @@
-const { Double } = require('bson');
+const {
+    Double
+} = require('bson');
 const e = require('express');
 
 var mongoose = require('mongoose');
@@ -54,22 +56,26 @@ var database = {
 
                 autoIncrement.initialize(connection);
 
-                userSchema.plugin(autoIncrement.plugin, {model:'userModel', field:'userid'});
-                gameSchema.plugin(autoIncrement.plugin, {model:'gameModel', field:'gameid'});
+                userSchema.plugin(autoIncrement.plugin, {
+                    model: 'userModel',
+                    field: 'userid'
+                });
+                gameSchema.plugin(autoIncrement.plugin, {
+                    model: 'gameModel',
+                    field: 'gameid'
+                });
 
                 userModel = connection.model("users", userSchema);
                 gameModel = connection.model("games", gameSchema);
                 statModel = connection.model("stats", statSchema);
-            
-            }
 
-            else {
+            } else {
                 console.log("Error connecting to the database.");
             }
         })
     },
 
-    addUser : function (un, n, em, p, callback) {
+    addUser: function (un, n, em, p, callback) {
         var newUser = new userModel({
             username: un,
             name: n,
@@ -83,28 +89,50 @@ var database = {
     },
 
     //By email only
-    getUserByE : function(rEmail, callback) {
-        userModel.find({email: rEmail}, callback);
+    getUserByE: function (rEmail, callback) {
+        userModel.find({
+            email: rEmail
+        }, callback);
     },
 
     //By email & password
-    getUserByEP : function(lEmail, lPassword, callback) {
-        userModel.findOne({email: lEmail, password: lPassword}, callback);
+    getUserByEP: function (lEmail, lPassword, callback) {
+        userModel.findOne({
+            email: lEmail,
+            password: lPassword
+        }, callback);
+    },
+
+    //By password
+    getUserByUIDnPass: function(eUID, ePassword, callback) {
+        userModel.findOne({
+            userid: eUID,
+            password: ePassword
+        }, callback);
     },
 
     //Get all games
-    getAllGames: function(callback) {
+    getAllGames: function (callback) {
         gameModel.find({}, callback);
     },
 
     //Search for games
-    searchGame: function(gn, callback) {
-        gameModel.find({name: new RegExp(gn, 'i')}, callback);
+    searchGame: function (gn, callback) {
+        gameModel.find({
+            name: new RegExp(gn, 'i')
+        }, callback);
     },
 
-    //Get Profile
-    getProfile: function(uid, callback) {
-        userModel.findOne({userid: uid});
+    //Get profile
+    getProfile: function (uid, callback) {
+        userModel.findOne({
+            userid: uid
+        }, callback);
+    },
+
+    //Update profile
+    updateProfile: function(e, u, n, callback) {
+        userModel.updateMany({email: e}, {username: u}, {name: n}, callback);
     }
 };
 

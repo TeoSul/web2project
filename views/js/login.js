@@ -9,7 +9,7 @@ $(document).ready(function() {
     if (sessionStorage.getItem("login"))
     {
         alert("You are already logged in!");
-        // window.location.href('/');
+        window.location.href('/');
     }
 })
 
@@ -66,7 +66,7 @@ function login() {
             else
             {
                 $(".statusMessage").append(`
-                You have entered an invalid username or password. Please try again.
+                You have entered an invalid email or password. Please try again.
                 `);
             }
         }

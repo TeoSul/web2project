@@ -6,7 +6,9 @@ $(document).ready(function() {
 
     else
     {
-        var userId = sessionStorage.getItem("userid");
+        var userId = sessionStorage.getItem("userId");
+
+        console.log("User ID: " + userId);
 
         //Get Profile
         $.ajax({
@@ -16,11 +18,35 @@ $(document).ready(function() {
 
         .done(
             function (user) {
+                console.log(user);
+
                 $('#viewProfile').html(`
-                <p>Email Address: ${user.email}</p><br/>
-                <p>Username: ${user.username}</p><br/>
+                <h3>Profile</h3>
+                <p>Email Address: ${user.email}</p>
+                <p>Username: ${user.username}</p>
                 <p>Name: ${user.name}</p><br/>
-                `)
+                `);
+
+                $('#editProfile').html(`
+                <h3>Edit Profile</h3>
+
+                <form onsubmit="return updateProfile();">
+                <label>Email Address: </label>
+                <input type="email" name="eEmail" id="eEmail" value="${user.email}" required><br/><br/>
+
+                <label>Username: </label>
+                <input type="text" name="eUsername" id="eUsername" value="${user.username}" required><br/><br/>
+                
+                <label>Name: </label>
+                <input type="text" name="eName" id="eName" value="${user.name}" required><br/><br/>
+
+                <label>Password: </label>
+                <input type="password" name="ePassword" id="#c2ePassword" required><br/>
+                <span style="color: red">Enter your current password to make the change(s).</span><br/><br/>
+
+                <input type="submit" id="updateProfile" value="Update Profile">
+                </form>
+                `);
             }
         )
 
@@ -31,3 +57,56 @@ $(document).ready(function() {
         );
     }
 })
+
+function updateProfile(){
+    var userId = sessionStorage.getItem("userId");
+
+    var editInfo = {
+        email: $('#eEmail').val(),
+        username: $('#eUsername').val(),
+        name: $('#eName').val(),
+        password: $('#c2ePassword').val()
+    }
+
+    $.ajax({
+        url: `/api/profile/${userId}`,
+        type: "put",
+        data: editInfo
+    })
+
+    .done(
+        function(response) {
+            if (response != undefined || response != null)
+            {
+                sessionStorage.setItem("edit", true);
+
+                if (sessionStorage.getItem("edit"))
+                {
+                    $("#eStatusMessageS").html(`
+                    You have successfully updated your profile!
+                    `);
+                }
+
+                else
+                {
+                    $("#eStatusMessageF").html(`
+                    Unable to update profile. Please try again later.
+                    `);
+                }
+            }
+
+            else
+            {
+                $("#eStatusMessageF").html(`
+                The password you have entered does not match with your current password. Please try again.
+                `);
+            }
+        }
+    )
+
+    .fail(
+
+    )
+
+    return false;
+}

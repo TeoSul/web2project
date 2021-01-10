@@ -1,6 +1,17 @@
 var bodyParser = require('body-parser');
 const e = require('express');
 
+const crypto = require('crypto');
+
+//For Registration
+const hash = crypto.createHash("sha512");
+
+//For Login
+const lHash = crypto.createHash("sha512");
+
+//For Edit
+const eHash = crypto.createHash("sha512");
+
 var db = require('./services/dataservice.js');
 
 db.connect();
@@ -37,6 +48,10 @@ var routes = function () {
         res.sendFile(__dirname + "/views/" + req.originalUrl);
     });
 
+    router.get('/profile', function(req ,res) {
+        res.sendFile(__dirname + "/views/profile.html");
+    })
+
     //Get User Profile
     router.get('/api/profile/:uid', function(req, res){
         var userid = req.params.uid;
@@ -52,6 +67,48 @@ var routes = function () {
                 res.status(200).send(user);
             }
         });
+    })
+
+    //Edit User Profile
+    router.put('/api/profile/:uid', function(req, res){
+        var userid = req.params.uid;
+
+        var data = req.body;
+
+        var email = data.email;
+        var username = data.username;
+        var name = data.name;
+        var password = eHash.update(data.password).digest("hex");
+
+        db.getUserByUIDnPass(userid, password, function (err, user) {
+            if (err)
+            {
+                res.status(500).send("Unable to update profile. Please try again later.");
+            }
+
+            else
+            {
+                if (Object.keys(user).length > 0 || user != null || user != undefined)
+                {
+                    db.updateProfile(email, username, name, function(err, user) {
+                        if (err)
+                        {
+                            res.status(500).send("Unable to update profile. Please try again later.");
+                        }
+
+                        else
+                        {
+                            res.status(200).send(user);
+                        }
+                    });
+                }
+
+                else
+                {
+                    res.send({});
+                }
+            }
+        })
     })
 
     //Get All Games
@@ -75,30 +132,38 @@ var routes = function () {
         var emailCheck;
 
         db.getUserByE(email, function(err, user) {  
-            console.log(user);   
-            if (Object.keys(user).length < 1 || user === null || user === undefined)
+            console.log(user);
+            if (err)
             {
-                emailCheck = false;
+                res.status(500).send("Unable to register. Please try again later.");
             }
 
             else
             {
-                emailCheck = true;
-            }
+                if (Object.keys(user).length < 1 || user === null || user === undefined)
+                {
+                    emailCheck = false;
+                }
 
-            console.log("Email Check: " + emailCheck);
+                else
+                {
+                    emailCheck = true;
+                }
 
-            if (emailCheck === false || emailCheck === undefined || emailCheck === null)
-            {
-                db.addUser(data.username, data.name, data.email, data.password,
-                    function (err, user) {
-                        res.send({"register" : true});
-                    });
-            }
+                console.log("Email Check: " + emailCheck);
 
-            else
-            {
-                res.send({});
+                if (emailCheck === false || emailCheck === undefined || emailCheck === null)
+                {
+                    db.addUser(data.username, data.name, data.email, hash.update(data.password).digest("hex"),
+                        function (err, user) {
+                            res.send({"register" : true});
+                        });
+                }
+
+                else
+                {
+                    res.send({});
+                }
             }
         });
     });
@@ -113,7 +178,9 @@ var routes = function () {
         var data = req.body;
 
         var email = data.lEmail;
-        var password = data.lPassword;
+        var password = lHash.update(data.lPassword).digest("hex");
+
+        console.log(password);
 
         var userCheck;
 

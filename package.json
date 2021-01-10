@@ -1,7 +1,7 @@
 {
   "dependencies": {
+    "crypto": "^1.0.1",
     "express": "^4.17.1",
-    "md5": "^2.3.0",
     "mongoose-auto-increment": "^5.0.1",
     "mongoose-simpledb": "^5.1.0"
   }

@@ -1,9 +1,6 @@
 function validateRegister() {
-    var md5 = require('md5');
-
-    var iPassword = md5(document.forms["registration"]["rPassword"].value);
-
-    var confirmPassword = md5(document.forms["registration"]["confirmPassword"].value);
+    var iPassword = document.forms["registration"]["rPassword"].value;
+    var confirmPassword = document.forms["registration"]["confirmPassword"].value;
 
     console.log(iPassword);
     console.log(confirmPassword);
