@@ -1,15 +1,20 @@
 function validateRegister() {
-    var password = document.forms["registration"]["password"].value;
+    var md5 = require('md5');
 
-    var confirmPassword = document.forms["registration"]["confirmPassword"].value;
+    var iPassword = md5(document.forms["registration"]["rPassword"].value);
 
-    if (password === confirmPassword)
+    var confirmPassword = md5(document.forms["registration"]["confirmPassword"].value);
+
+    console.log(iPassword);
+    console.log(confirmPassword);
+
+    if (iPassword === confirmPassword)
     {
         var userInfo = {
             username: $('#rUsername').val(),
             name: $('#rName').val(),
             email: $('#rEmail').val(),
-            password: $('#rPassword').val(),
+            password: iPassword,
         }
         
         $.ajax({

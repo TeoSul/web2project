@@ -19,7 +19,7 @@ $(document).ready(function() {
                 $('#viewProfile').html(`
                 <p>Email Address: ${user.email}</p><br/>
                 <p>Username: ${user.username}</p><br/>
-                <p>: ${user.name}</p><br/>
+                <p>Name: ${user.name}</p><br/>
                 `)
             }
         )

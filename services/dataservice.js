@@ -44,6 +44,12 @@ var database = {
                     price: Number
                 });
 
+                statSchema = schema({
+                    gameid: Number,
+                    userid: Number,
+                    time: Number,
+                })
+
                 var connection = mongoose.connection;
 
                 autoIncrement.initialize(connection);
@@ -53,6 +59,7 @@ var database = {
 
                 userModel = connection.model("users", userSchema);
                 gameModel = connection.model("games", gameSchema);
+                statModel = connection.model("stats", statSchema);
             
             }
 

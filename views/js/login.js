@@ -1,12 +1,12 @@
 $(document).ready(function() {
-    if (sessionStorage.getItem("register") === true)
+    if (sessionStorage.getItem("register"))
     {
         $(".statusMessage").append(`
         You have successfully created an account! Proceed to login below!
         `);
     }
 
-    if (sessionStorage.getItem("login") === true)
+    if (sessionStorage.getItem("login"))
     {
         alert("You are already logged in!");
         // window.location.href('/');
@@ -34,7 +34,7 @@ function login() {
             {
                 sessionStorage.setItem("userId", response.userid);
 
-                console.log(sessionStorage.getItem("userId"));
+                console.log("User ID: " + sessionStorage.getItem("userId"));
 
                 if (sessionStorage.getItem("userId") != undefined)
                 {

@@ -1,5 +1,6 @@
 var bodyParser = require('body-parser');
 const e = require('express');
+
 var db = require('./services/dataservice.js');
 
 db.connect();
@@ -16,6 +17,7 @@ var routes = function () {
         res.sendFile(__dirname + "/views/index.html");
     });
 
+    //Logout
     router.get('/logout', function(req, res) {
         res.sendFile(__dirname + "/views/logout.html");
     });
@@ -30,10 +32,12 @@ var routes = function () {
         res.sendFile(__dirname + "/views/" + req.originalUrl);
     });
 
+    //Images
     router.get('/images/*', function(req, res) {
         res.sendFile(__dirname + "/views/" + req.originalUrl);
     });
 
+    //Get User Profile
     router.get('/api/profile/:uid', function(req, res){
         var userid = req.params.uid;
 
@@ -157,7 +161,8 @@ var routes = function () {
         })
     });
 
-
+    //
+    router.post('/api')
 
     return router;
 
