@@ -8,12 +8,12 @@ var schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 
 var userSchema = {};
-
 var gameSchema = {};
+var statSchema = {};
 
 var userModel;
-
 var gameModel;
+var statModel;
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
@@ -47,10 +47,10 @@ var database = {
                 });
 
                 statSchema = schema({
-                    gameid: Number,
                     userid: Number,
+                    gameid: Number,
                     time: Number,
-                })
+                });
 
                 var connection = mongoose.connection;
 
@@ -60,6 +60,7 @@ var database = {
                     model: 'userModel',
                     field: 'userid'
                 });
+
                 gameSchema.plugin(autoIncrement.plugin, {
                     model: 'gameModel',
                     field: 'gameid'
@@ -75,6 +76,7 @@ var database = {
         })
     },
 
+    //Register user
     addUser: function (un, n, em, p, callback) {
         var newUser = new userModel({
             username: un,
@@ -86,6 +88,17 @@ var database = {
         });
 
         newUser.save(callback);
+    },
+
+    //Add stat documents
+    addStats: function (uid, gid, t, callback) {
+        var newStat = new statModel({
+            userid : uid,
+            gameid: gid,
+            time: t
+        });
+
+        newStat.save(callback);
     },
 
     //By email only

@@ -27,7 +27,7 @@ $(document).ready(function() {
                 console.log(game);
                 $(".games").append(`
                 <tr>
-                <td><img src="${game.image}"/></td>
+                <td><img src="${game.image}" width="60%"/></td>
                 <td>${game.name}</td>
                 <td>${game.genre}</td>
                 <td>$${game.price}</td>
@@ -61,7 +61,7 @@ function search() {
             games.forEach(function(game) {
                 $(".games").html(`
                 <tr>
-                <td><img src="${game.image}"/></td>
+                <td><img src="${game.image}" width="60%"/></td>
                 <td>${game.name}</td>
                 <td>${game.genre}</td>
                 <td>$${game.price}</td>

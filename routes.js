@@ -13,6 +13,7 @@ const lHash = crypto.createHash("sha512");
 const eHash = crypto.createHash("sha512");
 
 var db = require('./services/dataservice.js');
+const { Console } = require('console');
 
 db.connect();
 
@@ -48,6 +49,7 @@ var routes = function () {
         res.sendFile(__dirname + "/views/" + req.originalUrl);
     });
 
+    //Profile Page
     router.get('/profile', function(req ,res) {
         res.sendFile(__dirname + "/views/profile.html");
     })
@@ -90,6 +92,7 @@ var routes = function () {
             {
                 if (Object.keys(user).length > 0 || user != null || user != undefined)
                 {
+                    console.log("Edit: " + data);
                     db.updateProfile(email, username, name, function(err, user) {
                         if (err)
                         {
@@ -98,7 +101,7 @@ var routes = function () {
 
                         else
                         {
-                            res.status(200).send(user);
+                            res.status(200).send(data);
                         }
                     });
                 }

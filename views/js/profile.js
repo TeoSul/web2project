@@ -18,7 +18,6 @@ $(document).ready(function() {
 
         .done(
             function (user) {
-                console.log(user);
 
                 $('#viewProfile').html(`
                 <h3>Profile</h3>
@@ -41,10 +40,10 @@ $(document).ready(function() {
                 <input type="text" name="eName" id="eName" value="${user.name}" required><br/><br/>
 
                 <label>Password: </label>
-                <input type="password" name="ePassword" id="#c2ePassword" required><br/>
+                <input type="password" name="ePassword" id="c2ePassword" required><br/>
                 <span style="color: red">Enter your current password to make the change(s).</span><br/><br/>
 
-                <input type="submit" id="updateProfile" value="Update Profile">
+                <input type="submit" value="Update Profile">
                 </form>
                 `);
             }
@@ -68,6 +67,8 @@ function updateProfile(){
         password: $('#c2ePassword').val()
     }
 
+    console.log(editInfo);
+
     $.ajax({
         url: `/api/profile/${userId}`,
         type: "put",
@@ -76,9 +77,13 @@ function updateProfile(){
 
     .done(
         function(response) {
+            console.log(response);
+            
             if (response != undefined || response != null)
             {
                 sessionStorage.setItem("edit", true);
+
+                console.log("Edit Session: " + sessionStorage.getItem("edit"));
 
                 if (sessionStorage.getItem("edit"))
                 {
@@ -92,6 +97,8 @@ function updateProfile(){
                     $("#eStatusMessageF").html(`
                     Unable to update profile. Please try again later.
                     `);
+
+                    return false;
                 }
             }
 
@@ -100,13 +107,17 @@ function updateProfile(){
                 $("#eStatusMessageF").html(`
                 The password you have entered does not match with your current password. Please try again.
                 `);
+
+                return false;
             }
         }
     )
 
     .fail(
-
-    )
+        function (err) {
+            console.log(err.responseText);
+        }
+    );
 
     return false;
 }
