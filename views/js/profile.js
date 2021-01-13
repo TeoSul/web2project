@@ -90,6 +90,8 @@ function updateProfile(){
                     $("#eStatusMessageS").html(`
                     You have successfully updated your profile!
                     `);
+
+                    window.location.reload();
                 }
 
                 else

@@ -118,7 +118,7 @@ var routes = function () {
     router.get('/api/games', function(req, res) {
         db.getAllGames(function (err, games) {
             res.send(games);
-        })
+        });
     });
 
     //Registration Page
@@ -219,6 +219,8 @@ var routes = function () {
     router.post('/api/search', function (req, res) {
         var name = req.body.searchName;
 
+        console.log(name);
+
         db.searchGame(name, function(err, games) {
             if (err) {
                 res.status(500).send("Unable to search for games. Please try again later");
@@ -226,9 +228,19 @@ var routes = function () {
 
             else
             {
-                res.status(200).send(games);
+                if (name === undefined || name === "" || name === null)
+                {
+                    db.getAllGames(function (err, games) {
+                        res.send(games);
+                    });
+                }
+
+                else
+                {
+                    res.status(200).send(games);
+                }
             }
-        })
+        });
     });
 
     //
