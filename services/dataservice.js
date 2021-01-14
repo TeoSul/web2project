@@ -34,7 +34,8 @@ var database = {
                     email: String,
                     password: String,
                     allowTracking: Boolean,
-                    banned: Boolean
+                    banned: Boolean,
+                    admin: Boolean
 
                 });
 
@@ -84,7 +85,8 @@ var database = {
             email: em,
             password: p,
             allowTracking: true,
-            banned: false
+            banned: false,
+            admin: false
         });
 
         newUser.save(callback);
@@ -124,6 +126,11 @@ var database = {
         }, callback);
     },
 
+    //Get all users
+    getAllUsers: function (callback) {
+        userModel.find({}, callback);
+    },
+
     //Get all games
     getAllGames: function (callback) {
         gameModel.find({}, callback);
@@ -146,6 +153,11 @@ var database = {
     //Update profile
     updateProfile: function(e, u, n, callback) {
         userModel.updateMany({email: e}, {username: u}, {name: n}, callback);
+    },
+
+    //Update ban status
+    updateBanStatus: function(b, callback) {
+        userModel.updateMany({banned: b}, callback);
     }
 };
 

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <script src='/js/jquery.min.js'></script>
+        <script src="/js/payment.js"></script>
+
+        <link rel="stylesheet" href="/css/style.css"/>
+    </head>
+
+    <body>
+        <main>
+        
+        <nav class="navigation">
+            <ul>
+                <li><a href="/">LOGO</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/logout">Log Out</a></li>
+            </ul>
+        </nav>
+
+        <section>
+            <div class=".pStatusMessageF"></div>
+
+            <h1>Payment Information</h1>
+
+            <form name="paymentInfo" onsubmit="return validatePayment();">
+                <label>Card Number: </label>
+                <input type="text" id="pCardNo" name="pCardNo" required/><br/><br/>
+
+                <label></label>
+
+                <label>CVV: </label>
+                <input type="text" id="pCVV" name="pCVV" required style="width:50px;"/><br/>
+                <span style="color: red;">*Spacing is not required.</span><br/><br/>
+
+                <label>Full Name: </label>
+                <input type="text" id="pName" name="pName" required/><br/><br/>
+
+                <label>Password: </label>
+                <input type="password" id="rPassword" name="rPassword" required/><br/><br/>
+
+                <input type="submit" value="Check Out"/>
+            </form>
+        </section>
+
+        <footer>
+
+        </footer>
+
+        </main>
+    </body>
+</html>

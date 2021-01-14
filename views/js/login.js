@@ -28,9 +28,7 @@ function login() {
 
     .done(
         function (response) {
-            console.log(response.userid);
-
-            if (response.userid != undefined)
+            if (response.login)
             {
                 sessionStorage.setItem("userId", response.userid);
 
@@ -40,16 +38,25 @@ function login() {
                 {
                     sessionStorage.setItem("login", true);
 
-                    console.log(sessionStorage.getItem("login"));
-
                     if (sessionStorage.getItem("login"))
                     {
+                        if (response.admin)
+
+                        {
+                            sessionStorage.setItem("admin", true);
+                        }
+
+                        else
+                        {
+                            sessionStorage.setItem("admin", false);
+                        }
+
                         window.location.href = "/";
                     }
 
                     else
                     {
-                        $(".statusMessage").append(`
+                        $(".lStatusMessageF").append(`
                         An error has occurred. Please try again later.
                         `);
                     }
@@ -57,7 +64,7 @@ function login() {
 
                 else
                 {
-                    $(".statusMessage").append(`
+                    $(".lStatusMessageF").append(`
                     An error has occurred. Please try again later.
                     `);
                 }
@@ -65,7 +72,7 @@ function login() {
 
             else
             {
-                $(".statusMessage").append(`
+                $(".lStatusMessageF").append(`
                 You have entered an invalid email or password. Please try again.
                 `);
             }

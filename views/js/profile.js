@@ -8,8 +8,6 @@ $(document).ready(function() {
     {
         var userId = sessionStorage.getItem("userId");
 
-        console.log("User ID: " + userId);
-
         //Get Profile
         $.ajax({
             url: `/api/profile/${userId}`,

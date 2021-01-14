@@ -3,7 +3,8 @@
 <html>
     <head>
         <script src='/js/jquery.min.js'></script>
-        <script src='/js/profile.js'></script>
+        <script src='/js/dashboard.js'></script>
+        
         <link rel="stylesheet" href="/css/style.css"/>
     </head>
 
@@ -14,22 +15,36 @@
             <ul>
                 <li><a href="/">LOGO</a></li>
                 <li><a href="/">Home</a></li>
-                <li>Test</li>
                 <li><a href="/profile">Profile</a></li>
                 <li><a href="/logout">Log Out</a></li>
             </ul>
         </nav>
 
-        <div id="eStatusMessageS" style="color: lime">
+        <div id="DBstatusMessageS" style="color: white; background-color: lime; width: 100%;">
         </div>
 
-        <div id="eStatusMessageF" style="color: red">
+        <div id="DBstatusMessageF" style="color: white; background-color:red; width: 100%;">
         </div>
 
-        <section id="viewProfile">
-        </section>
+        <button id="viewUsersBTN">View Users</button><br/>
+        
+        <section id="viewUsers">
+            <table border="1" style="border-collapse:collapse; width: 80%; text-align: center;">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Name</th>
+                        <th>Email Address</th>
+                        <th>Ban Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
 
-        <section id="editProfile">
+                <tbody class="DBusers">
+                </tbody>
+                
+            </table>
         </section>
 
         <footer>

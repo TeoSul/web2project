@@ -183,13 +183,12 @@ var routes = function () {
         var email = data.lEmail;
         var password = lHash.update(data.lPassword).digest("hex");
 
-        console.log(password);
-
         var userCheck;
 
         db.getUserByEP(email, password, function (err, user) {
             
-            if (Object.keys(user).length < 1 || user === undefined || user === null)
+            console.log(user);
+            if (user === undefined || user === null)
             {
                 userCheck = false;
             }
@@ -203,7 +202,6 @@ var routes = function () {
 
             if (userCheck === true)
             {
-                console.log(user.userid);
                 res.json({"login" : true,
                     "userid": user.userid});
             }
@@ -243,8 +241,58 @@ var routes = function () {
         });
     });
 
-    //
-    router.post('/api')
+    //Dashboard Page
+    router.get('/dashboard', function (req, res) {
+        res.sendFile(__dirname + "/views/dashboard.html");
+    });
+
+    //Display Users on Dashboard
+    router.get('/api/dashboard/users', function (req, res) {
+        db.getAllUsers(function (err, users) {
+            res.send(users);
+        });
+    });
+
+    router.put('/api/dashboard/ban/:uid', function (req, res) {
+        var userid = req.params.uid;
+
+        var banStatus = true;
+
+        db.getProfile(userid, function (err, user) {
+            if (err)
+            {
+                res.status(500).send("Unable to load profile. Please try again later");
+            }
+
+            else
+            {
+                if (Object.keys(user).length > 0 || user != null || user != undefined)
+                {
+                    db.updateBanStatus(banStatus, function(err, user) {
+                        if (err)
+                        {
+                            res.send(500).send("Unable to execute action. Please try again later.");
+                        }
+            
+                        else
+                        {
+                            res.status(200).send(user);
+                        }
+                    });
+                }
+
+                else
+                {
+                    res.send(500).send("Unable to execute action. Please try again later.");
+                }
+            }
+        });
+    });
+
+    //Payment Page
+    router.get('/payment', function (req, res) {
+        res.sendFile(__dirname + "/views/payment.html");
+    });
 
     return router;
 
