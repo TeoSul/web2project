@@ -24,10 +24,11 @@ $(document).ready(function() {
 
             .done(
                 function (data) {
+
+                    console.log("S UID: " + sUID);
                     data.forEach(function(user) {
 
                         console.log("DB UID: " + user.userid);
-                        console.log("S UID: " + sUID);
 
                             if (user.banned)
                             {
@@ -98,82 +99,81 @@ $(document).ready(function() {
             );
         }
     }
-})
 
-$('.banUserBTN').on('click', function() {
-    var userid = $('.banUserBTN').val();
-
-    var userInfo = {
-        email: $('#eEmail').val(),
-        username: $('#eUsername').val(),
-        name: $('#eName').val(),
-        banned: $('#c2ePassword').val()
-    }
-
-    $.ajax(
-        {
-            url:`/api/dashboard/ban/${userid}`,
-            method: 'put',
-            data: userInfo
+    $(".banUserBTN").click(function() {
+        var userid = $('.banUserBTN').val();
+    
+        console.log("Banning: " + userid);
+    
+        var userInfo = {
+            banned: true
         }
-        
-    )
-
-    .done(
-        function(response) {
-            if (response != undefined || response != null)
+    
+        $.ajax(
             {
-                sessionStorage.setItem("bannedUser", true);
-
-                if (sessionStorage.getItem("bannedUser"))
+                url:`/api/dashboard/ban/${userid}`,
+                method: 'put',
+                data: userInfo
+            }
+            
+        )
+    
+        .done(
+            function(response) {
+                if (response.banned)
                 {
-                    $('.DBstatusMessageS').html(`You have successfully executed a ban on ${response.username}`);
-
-                    window.location.reload();
+                    sessionStorage.setItem("bannedUser", true);
+    
+                    if (sessionStorage.getItem("bannedUser"))
+                    {
+                        $('.DBstatusMessageS').html(`You have successfully executed a ban on ${response.username}`);
+    
+                        window.location.reload();
+                    }
+    
+                    else
+                    {
+                        $('.DBstatusMessageF').html(`Unable to execute action on ${response.username}. Please try again later.`);
+    
+                        return false;
+                    }
                 }
-
+    
                 else
                 {
                     $('.DBstatusMessageF').html(`Unable to execute action on ${response.username}. Please try again later.`);
-
+    
                     return false;
                 }
+    
             }
-
-            else
+        )
+    
+        .fail(
+            function(err) {
+                console.log(err.responseText);
+            }
+        );
+    });
+    
+    $('.unbanUserBTN').on('click', function() {
+        $.ajax(
             {
-                $('.DBstatusMessageF').html(`Unable to execute action on ${response.username}. Please try again later.`);
-
-                return false;
+                url:`/api/dashboard/unban/${userid}`,
+                method: 'put'
             }
-
-        }
-    )
-
-    .fail(
-        function(err) {
-            console.log(err.responseText);
-        }
-    );
-});
-
-$('.unbanUserBTN').on('click', function() {
-    $.ajax(
-        {
-            url:`/api/dashboard/unban/${userid}`,
-            method: 'put'
-        }
-    )
-
-    .done(
-        function(response) {
-            window.location.reload();
-        }
-    )
-
-    .fail(
-        function(err) {
-            console.log(err.responseText);
-        }
-    );
-});
+        )
+    
+        .done(
+            function(response) {
+                window.location.reload();
+            }
+        )
+    
+        .fail(
+            function(err) {
+                console.log(err.responseText);
+            }
+        );
+    });
+})

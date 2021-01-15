@@ -187,7 +187,6 @@ var routes = function () {
 
         db.getUserByEP(email, password, function (err, user) {
             
-            console.log(user);
             if (user === undefined || user === null)
             {
                 userCheck = false;
@@ -256,7 +255,9 @@ var routes = function () {
     router.put('/api/dashboard/ban/:uid', function (req, res) {
         var userid = req.params.uid;
 
-        var banStatus = true;
+        var data = req.body;
+
+        var banStatus = data.banned;
 
         db.getProfile(userid, function (err, user) {
             if (err)
@@ -276,7 +277,7 @@ var routes = function () {
             
                         else
                         {
-                            res.status(200).send(user);
+                            res.status(200).send(data);
                         }
                     });
                 }
