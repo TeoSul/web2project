@@ -34,7 +34,7 @@ $(document).ready(function() {
                     <td>${game.name}</td>
                     <td>${game.genre}</td>
                     <td>$${game.price}</td>
-                    <td><button class="">BUY</button></td>
+                    <td><button class="buyButton" value="${game.gameid}">BUY</button></td>
                     </tr>`);
                 }
 
@@ -46,7 +46,12 @@ $(document).ready(function() {
                     <td>${game.name}</td>
                     <td>${game.genre}</td>
                     <td>Free To Play</td>
-                    <td><button class="playButton" value="${game.gameid}">Play Now!</button></td>
+                    <td>
+                    <form action="/games/${game.gameid} onsubmit="return playGame();">
+                    <input type="hidden" class="inputGameID" value="${game.gameid}"/>
+                    <input type="submit" class="playBTN" value="Play Now!"/>
+                    </form>
+                    </td>
                     </tr>`);
                 }
             })
@@ -111,7 +116,18 @@ function search() {
     return false;
 }
 
+function playGame() {
+    var gameID = $(".gameID").val();
 
-$('.playButton').click(function () {
-    window.open("/api/games/:gid");
-})
+    sessionStorage.setItem("SgameID", gameID);
+
+    if (sessionStorage.getItem("SgameID") != undefined || sessionStorage.getItem("SgameID") != null)
+    {
+        return true;
+    }
+
+    else
+    {
+        return false;
+    }
+}

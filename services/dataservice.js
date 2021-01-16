@@ -156,8 +156,15 @@ var database = {
     },
 
     //Update ban status
-    updateBanStatus: function(b, callback) {
-        userModel.updateMany({banned: b}, callback);
+    updateBanStatus: function(uid, b, callback) {
+        userModel.updateMany({userid : uid}, {banned: b}, callback);
+    },
+
+    //Get respective game by GameID
+    getGame: function (gid, callback) {
+        gameModel.findOne({
+            gameid: gid
+        }, callback);
     }
 };
 

@@ -252,6 +252,7 @@ var routes = function () {
         });
     });
 
+    //Ban User
     router.put('/api/dashboard/ban/:uid', function (req, res) {
         var userid = req.params.uid;
 
@@ -269,7 +270,7 @@ var routes = function () {
             {
                 if (Object.keys(user).length > 0 || user != null || user != undefined)
                 {
-                    db.updateBanStatus(banStatus, function(err, user) {
+                    db.updateBanStatus(userid, banStatus, function(err, user) {
                         if (err)
                         {
                             res.send(500).send("Unable to execute action. Please try again later.");
@@ -285,6 +286,36 @@ var routes = function () {
                 else
                 {
                     res.send(500).send("Unable to execute action. Please try again later.");
+                }
+            }
+        });
+    });
+
+    //Open A New Tab (Game)
+    router.get('/games/:gid', function(req, res) {
+        res.sendFile(__dirname + "/views/playing.html");
+    });
+
+    //Get Respective Game
+    router.get('/api/games/:gid', function (req, res) {
+        var gameid = req.params.gameid;
+
+        db.getGame(gameid, function (err, game) {
+            if (err)
+            {
+                res.status(500).send("Unable to load game. Please try again later");
+            }
+
+            else
+            {
+                if (Object.keys(game).length > 0 || game != null || game != undefined)
+                {
+                    res.status(200).send(game);
+                }
+
+                else
+                {
+                    res.send(500).send("Unable to load game. Please try again later.");
                 }
             }
         });
