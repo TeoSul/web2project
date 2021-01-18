@@ -1,3 +1,7 @@
+* {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
 .navigation ul{
     display:flex;
     justify-content: center;
@@ -8,5 +12,18 @@
 .navigation li{
     margin-left:100px;
     margin-right:100px;
+}
+
+.navigation li a{
+    text-decoration: none;
+    color: black;
+}
+
+.navigation li a:visited{
+    text-decoration: none;
+}
+
+.navigation li a:hover{
+    color:aqua;
 }
 

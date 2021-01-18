@@ -84,7 +84,7 @@ function search() {
                 {
                     $(".games").html(`
                     <tr>
-                    <td><img src="${game.image}" width="40%"/></td>
+                    <td><img src="${game.image}" width="50%"/></td>
                     <td>${game.name}</td>
                     <td>${game.genre}</td>
                     <td>$${game.price}</td>
