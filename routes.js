@@ -186,28 +186,35 @@ var routes = function () {
         var userCheck;
 
         db.getUserByEP(email, password, function (err, user) {
-            
-            if (user === undefined || user === null)
+
+            if (err)
             {
-                userCheck = false;
+                res.status(500).send("Unable to login. Please try again later");
             }
 
             else
             {
-                userCheck = true;
-            }
-            
-            console.log("User Check: " + userCheck);
+                if (user === undefined || user === null)
+                {
+                    userCheck = false;
+                }
 
-            if (userCheck === true)
-            {
-                res.json({"login" : true,
-                    "userid": user.userid});
-            }
+                else
+                {
+                    userCheck = true;
+                }
+                
+                console.log("User Check: " + userCheck);
 
-            else
-            {
-                res.json({"login": false});
+                if (userCheck)
+                {
+                    res.send(user);
+                }
+
+                else
+                {
+                    res.send("zero");
+                }
             }
         });
     });
@@ -308,14 +315,15 @@ var routes = function () {
 
             else
             {
-                if (Object.keys(game).length > 0 || game != null || game != undefined)
+                if (game != undefined || game != null)
                 {
+                    console.log(game);
                     res.status(200).send(game);
                 }
 
                 else
                 {
-                    res.send(500).send("Unable to load game. Please try again later.");
+                    res.status(500).send("Unable to load game. Please try again later.");
                 }
             }
         });

@@ -25,10 +25,12 @@ $(document).ready(function() {
 
     var SgameID = sessionStorage.getItem("SgameID");
 
+    console.log(SgameID);
+
     //Get Game
     $.ajax({
         url: `/api/games/${SgameID}`,
-        method: 'get'
+        method:"get"
     })
 
     .done(

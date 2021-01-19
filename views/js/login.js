@@ -1,7 +1,7 @@
 $(document).ready(function() {
     if (sessionStorage.getItem("register"))
     {
-        $(".statusMessage").append(`
+        $(".statusMessage").html(`
         You have successfully created an account! Proceed to login below!
         `);
     }
@@ -28,52 +28,62 @@ function login() {
 
     .done(
         function (response) {
-            if (response.login)
+            if (response != "zero")
             {
-                sessionStorage.setItem("userId", response.userid);
-                sessionStorage.setItem("allowTracking", true);
-
-                console.log("User ID: " + sessionStorage.getItem("userId"));
-
-                if (sessionStorage.getItem("userId") != undefined)
+                if (response.banned)
                 {
-                    sessionStorage.setItem("login", true);
-
-                    if (sessionStorage.getItem("login"))
-                    {
-                        if (response.admin)
-
-                        {
-                            sessionStorage.setItem("admin", true);
-                        }
-
-                        else
-                        {
-                            sessionStorage.setItem("admin", false);
-                        }
-
-                        window.location.href = "/";
-                    }
-
-                    else
-                    {
-                        $(".lStatusMessageF").append(`
-                        An error has occurred. Please try again later.
-                        `);
-                    }
+                    $(".lStatusMessageF").html(`
+                    Your account has been banned. Please contact an administrator for assistance.
+                    `);
                 }
 
                 else
                 {
-                    $(".lStatusMessageF").append(`
-                    An error has occurred. Please try again later.
-                    `);
+                    sessionStorage.setItem("userId", response.userid);
+                    sessionStorage.setItem("allowTracking", response.allowTracking);
+
+                    console.log("User ID: " + sessionStorage.getItem("userId"));
+
+                    if (sessionStorage.getItem("userId") != undefined)
+                    {
+                        sessionStorage.setItem("login", true);
+
+                        if (sessionStorage.getItem("login"))
+                        {
+                            if (response.admin)
+
+                            {
+                                sessionStorage.setItem("admin", true);
+                            }
+
+                            else
+                            {
+                                sessionStorage.setItem("admin", false);
+                            }
+
+                            window.location.href = "/";
+                        }
+
+                        else
+                        {
+                            $(".lStatusMessageF").html(`
+                            An error has occurred. Please try again later.
+                            `);
+                        }
+                    }
+
+                    else
+                    {
+                        $(".lStatusMessageF").html(`
+                        An error has occurred. Please try again later.
+                        `);
+                    }
                 }
             }
 
             else
             {
-                $(".lStatusMessageF").append(`
+                $(".lStatusMessageF").html(`
                 You have entered an invalid email or password. Please try again.
                 `);
             }
