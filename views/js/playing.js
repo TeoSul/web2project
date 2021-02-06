@@ -1,28 +1,28 @@
 var count = 0;
 var t;
-var timerOn = 0;
+var timerOn = false;
 
 function timedCount() {
-    $('#time').val() = count;
+    $('#time').val(count);
     count = count + 1;
-    t = setTimeOut(timedCount, 1000);
+    t = window.setTimeout(timedCount, 1000);
 }
 
 function startCount() {
     if (!timerOn)
     {
-        timerOn = 1;
+        timerOn = true;
         timedCount();
     }
 }
 
 function stopCount() {
-    clearTimeout(t);
-    timerOn = 0;
+    window.clearTimeout(t);
+    timerOn = false;
 }
 
 $(document).ready(function() {
-
+    
     var SgameID = sessionStorage.getItem("SgameID");
 
     console.log(SgameID);
@@ -36,8 +36,10 @@ $(document).ready(function() {
     .done(
         function(response) {
             $('.gameName').html(`
-            ${response.name};
+            ${response.name}
             `);
+
+            console.log("HELLO " + response.name);
 
             startCount();
         },

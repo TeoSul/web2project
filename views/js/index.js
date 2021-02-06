@@ -77,7 +77,18 @@ function playGame() {
 
     if (typeof gameID !== 'undefined')
     {
-        window.location.href = `/games/${gameID}`;
+        var play = window.open(`/games/${gameID}`, "_blank", "top=0,left=0,width=1024,height=768,directories=false,location=false,menubar=no,resizable=false,scrollbars=false,statusbar=no,toolbar=no,fullscreen=yes");
+        
+        play.document.write(
+            `<script>window.opener.document.body.innerHTML = "<button>Close</button>"</script>`
+        );
+        
+        play.onload = function() {
+            if (play.closed)
+            {
+                alert("closed");
+            }
+        }
     }
 
     else

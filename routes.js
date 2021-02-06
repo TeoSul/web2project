@@ -305,7 +305,7 @@ var routes = function () {
 
     //Get Respective Game
     router.get('/api/games/:gid', function (req, res) {
-        var gameid = req.params.gameid;
+        var gameid = req.params.gid;
 
         db.getGame(gameid, function (err, game) {
             if (err)
@@ -315,9 +315,10 @@ var routes = function () {
 
             else
             {
+                console.log(game);
+
                 if (game != undefined || game != null)
                 {
-                    console.log(game);
                     res.status(200).send(game);
                 }
 

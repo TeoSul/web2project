@@ -163,8 +163,12 @@ var database = {
     //Get respective game by GameID
     getGame: function (gid, callback) {
         gameModel.findOne({
-            gameid: gid
+            'gameid': gid
         }, callback);
+    },
+
+    deleteUser: function(uid, callback) {
+        userModel.findByIdAndDelete(uid, callback);
     }
 };
 
