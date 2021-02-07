@@ -10,10 +10,12 @@ var autoIncrement = require('mongoose-auto-increment');
 var userSchema = {};
 var gameSchema = {};
 var statSchema = {};
+var orderhistorySchema = {};
 
 var userModel;
 var gameModel;
 var statModel;
+var orderhistoryModel;
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
@@ -39,6 +41,7 @@ var database = {
 
                 });
 
+                //Games
                 gameSchema = schema({
                     gameid: Number,
                     image: String,
@@ -47,10 +50,18 @@ var database = {
                     price: Number
                 });
 
+                //Statistics
                 statSchema = schema({
                     userid: Number,
                     gameid: Number,
                     time: Number,
+                });
+
+                //Order History
+                orderhistorySchema = schema({
+                    orderid: Number,
+                    userid: Number,
+                    gameid: Number,
                 });
 
                 var connection = mongoose.connection;
@@ -70,6 +81,7 @@ var database = {
                 userModel = connection.model("users", userSchema);
                 gameModel = connection.model("games", gameSchema);
                 statModel = connection.model("stats", statSchema);
+                orderhistoryModel = connection.model("orderhistory", orderhistorySchema);
 
             } else {
                 console.log("Error connecting to the database.");
@@ -151,13 +163,18 @@ var database = {
     },
 
     //Update profile
-    updateProfile: function(e, u, n, callback) {
-        userModel.updateMany({email: e}, {username: u}, {name: n}, callback);
+    updateProfile: function(uid, e, u, n, callback) {
+        userModel.updateOne({userid: uid}, {email: e, username: u, name: n}, callback);
+    },
+
+    //Update account settings
+    updateSettings: function(uid, at, callback) {
+        userModel.updateOne({userid: uid}, {allowTracking: at}, callback);
     },
 
     //Update ban status
     updateBanStatus: function(uid, b, callback) {
-        userModel.updateMany({userid : uid}, {banned: b}, callback);
+        userModel.updateOne({userid : uid}, {banned: b}, callback);
     },
 
     //Get respective game by GameID
@@ -167,8 +184,11 @@ var database = {
         }, callback);
     },
 
-    deleteUser: function(uid, callback) {
-        userModel.findByIdAndDelete(uid, callback);
+    //Delete user
+    deleteAccount: function(uid, callback) {
+        userModel.deleteOne({
+            'userid': uid
+        }, callback);
     }
 };
 

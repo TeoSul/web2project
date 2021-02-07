@@ -3,15 +3,6 @@ const e = require('express');
 
 const crypto = require('crypto');
 
-//For Registration
-const hash = crypto.createHash("sha512");
-
-//For Login
-const lHash = crypto.createHash("sha512");
-
-//For Edit
-const eHash = crypto.createHash("sha512");
-
 var db = require('./services/dataservice.js');
 const { Console } = require('console');
 
@@ -32,6 +23,11 @@ var routes = function () {
     //Logout
     router.get('/logout', function(req, res) {
         res.sendFile(__dirname + "/views/logout.html");
+    });
+
+    //Delete Page
+    router.get('/delete', function(req, res) {
+        res.sendFile(__dirname + "/views/delete.html");
     });
 
     //CSS
@@ -80,7 +76,9 @@ var routes = function () {
         var email = data.email;
         var username = data.username;
         var name = data.name;
-        var password = eHash.update(data.password).digest("hex");
+
+        const lHash = crypto.createHash("sha512");
+        var password = lHash.update(data.password).digest("hex");
 
         db.getUserByUIDnPass(userid, password, function (err, user) {
             if (err)
@@ -90,10 +88,10 @@ var routes = function () {
 
             else
             {
-                if (Object.keys(user).length > 0 || user != null || user != undefined)
+                if (user != null || user != undefined)
                 {
                     console.log("Edit: " + data);
-                    db.updateProfile(email, username, name, function(err, user) {
+                    db.updateProfile(userid, email, username, name, function(err, user) {
                         if (err)
                         {
                             res.status(500).send("Unable to update profile. Please try again later.");
@@ -112,7 +110,79 @@ var routes = function () {
                 }
             }
         })
-    })
+    });
+
+    //Update Account Settings
+    router.put('/api/profile/settings/:uid', function (req, res) {
+        var userid = req.params.uid;
+
+        var data = req.body;
+
+        var atBox = data.allowTracking;
+
+        db.updateSettings(userid, atBox, function (err, user) {
+            if (err)
+            {
+                res.status(500).send("Unable to configure account. Please try again later.");
+            }
+
+            else
+            {
+                res.status(200).send(data);
+            }
+        });
+    });
+
+    //Delete Account
+    router.delete('/api/profile/delete/:uid', function (req, res) {
+        var userid = req.params.uid;
+
+        var data = req.body;
+
+        const lHash = crypto.createHash("sha512");
+        var vPassword = lHash.update(data.password).digest("hex");
+
+        //Verify User/Password
+        db.getUserByUIDnPass(userid, vPassword, function (err, user) {
+            if (err)
+            {
+                res.status(500).send("Unable to delete your account. Please try again later.");
+            }
+
+            else
+            {
+                //Verified
+                if (user != null || user != undefined)
+                {
+                    db.deleteAccount(userid, function (err, event) {
+                        if (err)
+                        {
+                            res.status(500).send("Unable to delete your account. Please try again later.");
+                        }
+
+                        else
+                        {
+                            if (event == null || event == undefined)
+                            {
+                                res.status(200).send("nolead");
+                            }
+
+                            else
+                            {
+                                res.status(200).send("lead");
+                            }
+                        }
+                    });
+                }
+
+                //Invalid Password
+                else
+                {
+                    res.status(200).send("whatlead");
+                }
+            }
+        });
+    });
 
     //Get All Games
     router.get('/api/games', function(req, res) {
@@ -133,6 +203,8 @@ var routes = function () {
         var email = data.email;
 
         var emailCheck;
+
+        const lHash = crypto.createHash("sha512");
 
         db.getUserByE(email, function(err, user) {  
             console.log(user);
@@ -157,7 +229,8 @@ var routes = function () {
 
                 if (emailCheck === false || emailCheck === undefined || emailCheck === null)
                 {
-                    db.addUser(data.username, data.name, data.email, hash.update(data.password).digest("hex"),
+                    db.addUser(data.username, data.name, data.email, 
+                        lHash.update(data.password).digest("hex"),
                         function (err, user) {
                             res.send({"register" : true});
                         });
@@ -181,6 +254,8 @@ var routes = function () {
         var data = req.body;
 
         var email = data.lEmail;
+
+        const lHash = crypto.createHash("sha512");
         var password = lHash.update(data.lPassword).digest("hex");
 
         var userCheck;
@@ -208,12 +283,12 @@ var routes = function () {
 
                 if (userCheck)
                 {
-                    res.send(user);
+                    res.status(200).send(user);
                 }
 
                 else
                 {
-                    res.send("zero");
+                    res.status(200).send("zero");
                 }
             }
         });
@@ -226,7 +301,8 @@ var routes = function () {
         console.log(name);
 
         db.searchGame(name, function(err, games) {
-            if (err) {
+            if (err)
+            {
                 res.status(500).send("Unable to search for games. Please try again later");
             }
 
@@ -235,7 +311,7 @@ var routes = function () {
                 if (name === undefined || name === "" || name === null)
                 {
                     db.getAllGames(function (err, games) {
-                        res.send(games);
+                        res.status(200).send(games);
                     });
                 }
 
@@ -298,7 +374,7 @@ var routes = function () {
         });
     });
 
-    //Open A New Tab (Game)
+    //Open A New Window (Game)
     router.get('/games/:gid', function(req, res) {
         res.sendFile(__dirname + "/views/playing.html");
     });

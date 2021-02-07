@@ -51,7 +51,6 @@ function login() {
                         if (sessionStorage.getItem("login"))
                         {
                             if (response.admin)
-
                             {
                                 sessionStorage.setItem("admin", true);
                             }

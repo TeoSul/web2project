@@ -4,7 +4,7 @@ $(document).ready(function() {
     {
         $(".navigation").html(`
             <ul>
-                <li><a href="/">LOGO</a></li>
+                <li><a href="/">ReAccess</a></li>
                 <li><a href="/">Home</a></li>
                 <li>Test</li>
                 <li><a href="/profile">Profile</a></li>

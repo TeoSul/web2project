@@ -32,10 +32,19 @@
         </section>
 
         <section id="editProfile">
+        </section><br/>
+
+        <section id="accountSettings">
         </section>
 
         <section id="deleteAccount">
-            <form>
+            <h3 style="color:white; background-color:red;">Delete Account</h3>
+
+            <form onsubmit="return deleteAccount();">
+                <label>Password: </label>
+                <input type="password" id="vPassword" required><br/><br/>
+                
+                <input type="submit" value="Delete Account">
             </form>
         </section>
 
