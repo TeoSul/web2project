@@ -52,6 +52,7 @@ var database = {
 
                 //Statistics
                 statSchema = schema({
+                    statid: Number,
                     userid: Number,
                     gameid: Number,
                     time: Number,
@@ -62,6 +63,7 @@ var database = {
                     orderid: Number,
                     userid: Number,
                     gameid: Number,
+                    gameprice: Number
                 });
 
                 var connection = mongoose.connection;
@@ -78,12 +80,25 @@ var database = {
                     field: 'gameid'
                 });
 
+                statSchema.plugin(autoIncrement.plugin, {
+                    model: 'statModel', 
+                    field: 'statid'
+                });
+
+                orderhistorySchema.plugin(autoIncrement.plugin, {
+                    model: 'orderhistoryModel',
+                    field: 'orderid'
+                });
+
                 userModel = connection.model("users", userSchema);
                 gameModel = connection.model("games", gameSchema);
                 statModel = connection.model("stats", statSchema);
                 orderhistoryModel = connection.model("orderhistory", orderhistorySchema);
 
-            } else {
+            }
+            
+            else
+            {
                 console.log("Error connecting to the database.");
             }
         })
@@ -104,6 +119,13 @@ var database = {
         newUser.save(callback);
     },
 
+    //Check for/Retrieve stat documents
+    getStats: function (uid, gid, callback) {
+        statModel.find({
+            userid: uid, gameid: gid
+        }, callback);
+    },
+
     //Add stat documents
     addStats: function (uid, gid, t, callback) {
         var newStat = new statModel({
@@ -113,6 +135,41 @@ var database = {
         });
 
         newStat.save(callback);
+    },
+
+    //Update stat documents
+    updateStats: function (uid, gid, t, callback) {
+        statModel.findOne({userid: uid, gameid: gid}, function (err, stat) {
+            if (err)
+            {
+                stat.time = -1;
+                stat.save(callback);
+            }
+
+            else
+            {
+                stat.time = parseInt(stat.time) + parseInt(t);
+                stat.save(callback);
+            }
+        });
+    },
+
+    //Add order history documents
+    addOH: function (uid, gid, gp, callback) {
+        var newOH = new orderhistoryModel({
+            userid: uid,
+            gameid: gid,
+            gameprice: gp
+        });
+
+        newOH.save(callback);
+    },
+
+    //Retrieve order history
+    checkOH: function (uid, callback) {
+        orderhistoryModel.find({
+            userid: uid
+        }, callback);
     },
 
     //By email only
@@ -180,7 +237,7 @@ var database = {
     //Get respective game by GameID
     getGame: function (gid, callback) {
         gameModel.findOne({
-            'gameid': gid
+            gameid: gid
         }, callback);
     },
 

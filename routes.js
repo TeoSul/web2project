@@ -3,6 +3,14 @@ const e = require('express');
 
 const crypto = require('crypto');
 
+const Card = require('creditcards/card');
+
+var visa = require('creditcards-types/types/visa');
+var mastercard = require('creditcards-types/types/mastercard');
+var americanExpress = require('creditcards-types/types/american-express');
+
+const expiration = require('creditcards/expiration');
+
 var db = require('./services/dataservice.js');
 const { Console } = require('console');
 
@@ -187,7 +195,77 @@ var routes = function () {
     //Get All Games
     router.get('/api/games', function(req, res) {
         db.getAllGames(function (err, games) {
-            res.send(games);
+            
+            res.status(200).send(games);
+        });
+    });
+
+    //Get All Games (Logged In)
+    router.get('/api/games/:uid', function(req, res) {
+        var userid = req.params.uid;
+
+        db.getAllGames(function (err, games) {
+            db.checkOH(userid, function (err, orderhistory) {
+                res.status(200).send({"games": games, "OH": orderhistory});
+            });
+        });
+    });
+
+    //Store Game Statistics
+    router.post('/api/games/store', function(req, res) {
+        var data = req.body;
+
+        var uid = data.userid;
+        var gid = data.gameid;
+        var t = data.time;
+
+        db.getStats(uid, gid, function (err, stats) {
+            if (err)
+            {
+                res.status(500).send("Unable to get game statistics. Please contact a developer immediately!");
+            }
+
+            else
+            {
+                console.log(stats);
+
+                if (Object.keys(stats).length < 1)
+                {
+                    console.log("wrap");
+
+                    db.addStats(uid, gid, t, function (err, stat) {
+                        if (err)
+                        {
+                            console.log("BLOOP");
+
+                            res.status(500).send("Unable to store game statistics. Please contact a developer immediately!");
+                        }
+
+                        else
+                        {
+                            console.log("KAI");
+                            res.status(200).send(data);
+                        }
+                    });
+                }
+
+                else
+                {
+                    console.log("rap");
+
+                    db.updateStats(uid, gid, t, function (err, stat) {
+                        if (err)
+                        {
+                            res.status(500).send("Unable to update game statistics. Please contact a developer immediately!");
+                        }
+
+                        else
+                        {
+                            res.status(200).send(data);
+                        }
+                    });
+                }
+            }
         });
     });
 
@@ -308,7 +386,7 @@ var routes = function () {
 
             else
             {
-                if (name === undefined || name === "" || name === null)
+                if (name === "" || name === null || name === undefined)
                 {
                     db.getAllGames(function (err, games) {
                         res.status(200).send(games);
@@ -380,7 +458,7 @@ var routes = function () {
     });
 
     //Get Respective Game
-    router.get('/api/games/:gid', function (req, res) {
+    router.get('/api/respectiveGames/:gid', function (req, res) {
         var gameid = req.params.gid;
 
         db.getGame(gameid, function (err, game) {
@@ -392,7 +470,6 @@ var routes = function () {
             else
             {
                 console.log(game);
-
                 if (game != undefined || game != null)
                 {
                     res.status(200).send(game);
@@ -409,6 +486,71 @@ var routes = function () {
     //Payment Page
     router.get('/payment', function (req, res) {
         res.sendFile(__dirname + "/views/payment.html");
+    });
+
+    //Checkout
+    router.post('/api/payment/checkout', function (req, res) {
+        var data = req.body;
+
+        //User + Product Information
+        var suid = data.uid;
+        var sgid = data.gid;
+        var sgameprice = data.price;
+
+        //Card Information
+        var cardNum = data.cardNo;
+        var smonth = data.month;
+        var syear = data.year;
+
+        const card = Card([visa, mastercard, americanExpress]);
+        const cardCheck =  card.isValid(card.parse(cardNum));
+
+        //Check For Expiration
+        const expirationCheck = expiration.isPast(smonth, syear);
+
+        //If CardNumber Is Valid
+        if (cardCheck)
+        {
+            //If Not Expired
+            if (!expirationCheck)
+            {
+                db.addOH(suid, sgid, sgameprice, function (err, orderHistory) {
+                    //Error
+                    if (err)
+                    {
+                        res.status(500).send("fail");
+                    }
+
+                    //Successfully Added Order Transaction
+                    else
+                    {
+                        res.status(200).send("success");
+                    }
+                });
+            }
+
+            //If Expired
+            else
+            {
+                res.status(200).send("Exped");
+            }
+        }
+
+        //If CardNumber Is Not Valid
+        else
+        {
+            //If Not Expired
+            if (!expirationCheck)
+            {
+                res.status(200).send("wrongCard");
+            }
+
+            //If Expired
+            else
+            {
+                res.status(200).send("wrongCardandExped");
+            }
+        }
     });
 
     return router;

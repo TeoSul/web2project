@@ -99,9 +99,7 @@ function updateProfile(){
     })
 
     .done(
-        function(response) {
-            console.log(response);
-            
+        function(response) {           
             if (Object.keys(response).length> 0)
             {
                 sessionStorage.setItem("edit", true);
@@ -160,10 +158,10 @@ function updateSettings() {
         function (response) {
             console.log(response);
 
+            sessionStorage.setItem("allowTracking", response.allowTracking);
+
             if (response != null || response != undefined)
             {
-                //window.location.reload();
-
                 $("#eStatusMessageS").html(`
                 You have successfully configured your account!
                 `);
@@ -220,11 +218,11 @@ function deleteAccount() {
 
                 else
                 {
-                    console.log("dudu");
-
                     $("#eStatusMessageF").html(`
                     Unable to delete your account. Please try again later.
                     `);
+
+                    $("#eStatusMessageF").addClass("error");
                 }
             }
         }

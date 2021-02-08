@@ -51,4 +51,15 @@ th{
     color: snow;
 }
 
+.error{
+    background-color: red;
+    width: 100%;
+    color:white;
+}
+
+.success{
+    color:white;
+    background-color: lime;
+    width: 100%;
+}
 
