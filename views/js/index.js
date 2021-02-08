@@ -6,7 +6,6 @@ $(document).ready(function() {
             <ul>
                 <li><a href="/">ReAccess</a></li>
                 <li><a href="/">Home</a></li>
-                <li>Test</li>
                 <li><a href="/profile">Profile</a></li>
                 <li><a href="/logout">Log Out</a></li>
             </ul>

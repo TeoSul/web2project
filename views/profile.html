@@ -15,8 +15,7 @@
                 <ul>
                     <li><a href="/">ReAccess</a></li>
                     <li><a href="/">Home</a></li>
-                    <li><a href="/register">Register</a></li>
-                    <li><a href="/login" class="login">Login</a></li>
+                    <li><a href="/logout">Log Out</a></li>
                 </ul>
             </nav>
 
@@ -31,11 +30,14 @@
         <section id="editProfile">
         </section><br/>
 
+        <hr>
+        
         <section id="accountSettings">
         </section>
 
         <section id="deleteAccount">
             <h3 style="color:white; background-color:red;">Delete Account</h3>
+            <p>Do note that delete your account means you'll lose all the data, like emails, files, calendars, and photos</p>
 
             <form onsubmit="return deleteAccount();">
                 <label>Password: </label>
