@@ -3,6 +3,8 @@
 <html>
     <head>
         <script src='/js/jquery.min.js'></script>
+        <script src='/js/profile.js'></script>
+        
         <link rel="stylesheet" href="/css/style.css"/>
     </head>
 
@@ -11,19 +13,43 @@
 
             <nav class="navigation">
                 <ul>
-                    <li>Home</li>
-                    <li>Test</li>
-                    <li>Profile</li>
-                    <li>Log Out</li>
+                    <li><a href="/">ReAccess</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/register">Register</a></li>
+                    <li><a href="/login" class="login">Login</a></li>
                 </ul>
             </nav>
 
-        <section>
+        <div style="background-color: aqua; height:10px"></div><br/>
 
+        <div id="eStatusMessageS" style="color: white; background-color: lime; width: 100%;">
+        </div>
+
+        <div id="eStatusMessageF" style="color: white; background-color:red; width: 100%;">
+        </div>
+
+        <section id="viewProfile">
+        </section>
+
+        <section id="editProfile">
+        </section><br/>
+
+        <section id="accountSettings">
+        </section>
+
+        <section id="deleteAccount">
+            <h3 style="color:white; background-color:red;">Delete Account</h3>
+
+            <form onsubmit="return deleteAccount();">
+                <label>Password: </label>
+                <input type="password" id="vPassword" required><br/><br/>
+                
+                <input type="submit" value="Delete Account">
+            </form>
         </section>
 
         <footer>
-            
+            &copy; Copyright 2021
         </footer>
 
         </main>

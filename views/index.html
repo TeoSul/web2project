@@ -2,29 +2,55 @@
 
 <html>
     <head>
-        <script src="/js/index.js"></script>
         <script src='/js/jquery.min.js'></script>
+        <script src="/js/index.js"></script>
+        
         <link rel="stylesheet" href="/css/style.css"/>
     </head>
 
     <body>
         <main>
 
-            <nav class="navigation">
-                <ul>
-                    <li>Home</li>
-                    <li>TestTet</li>
-                    <li>Register</li>
-                    <li>Login</li>
-                </ul>
-            </nav>
+        <nav class="navigation">
+            <ul>
+                <li><a href="/">ReAccess</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/register">Register</a></li>
+                <li><a href="/login" class="login">Login</a></li>
+            </ul>
+        </nav>
 
-        <section>
+        <div style="background-color: aqua; height:10px"></div><br/>
 
+        <section style="text-align: center;">
+            <div>
+                <form onsubmit="return search()">
+                    <input type="text" id="searchPanel" name="searchPanel"/>
+                    <input type="submit" name="searchSubmit" value="Search"/>
+                </form>
+            </div><br/>
         </section>
 
-        <footer>
-            
+        <section>
+            <table border="1" style="border-collapse:collapse; width: 100%; text-align: center;">
+                <thead>
+                    <tr>
+                        <th style="width: 30%;"> Available Games</th>
+                        <th>Name</th>
+                        <th>Genre</th>
+                        <th>Price</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody class="games">
+                </tbody>
+                
+            </table>
+        </section><br/><br/>
+
+        <footer style="text-align: center; height: 40px; background-color: #0E4D92; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; padding-top:20px;">
+            <p style="color: snow;">&copy; Copyright 2021</p>
         </footer>
 
         </main>

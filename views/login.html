@@ -2,27 +2,46 @@
 
 <html>
     <head>
-
+        <script src='/js/jquery.min.js'></script>
+        <script src="/js/login.js"></script>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        
+        <link rel="stylesheet" href="/css/style.css"/>
     </head>
 
     <body>
         <main>
 
         <section>
-            <form method="post" action="/login">
+            <div class="lStatusMessageF" style="background-color: red; color:white; text-align:center;">
+            </div>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="/">ReAccess</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/register">Register</a></li>
+                    <li><a href="/login" class="login">Login</a></li>
+                </ul>
+            </nav>
+            
+            <h1 style="text-align: center;">Login</h1>
+            
+            <form onsubmit="return login()" style="text-align: center;">
                 <label>Email Address: </label>
-                <input type="email" name="email"/><br/><br/>
+                <input type="email" id="lEmail" name="lEmail" required><br/><br/>
 
                 <label>Password: </label>
-                <input type="password" name="password"/><br/><br/>
+                <input type="password" id="lPassword" name="lPassword" required><br/><br/>
 
-                <input type="submit" value="Login"/>
-                <a href="resetPassword.html">Forgot Password?</a>
+                <div class="g-recaptcha" data-sitekey="6Le5Uy0aAAAAALWh47cOt2_gKyexrl5qAQ-jRQjn"></div>
+
+                <input type="submit" value="Login"><br/>
+
+                <a href="/forgotPassword">Forgot Password?</a>
             </form>
         </section>
 
-        <footer>
-            
+        <footer>          
         </footer>
 
         </main>

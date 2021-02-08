@@ -2,46 +2,49 @@
 
 <html>
     <head>
-
+        <script src='/js/jquery.min.js'></script>
+        <script src="/js/register.js"></script>
+        <link rel="stylesheet" href="/css/style.css"/>
     </head>
 
     <body>
         <main>
         
-        <nav>
-            <ul>
-                <li>Home</li>
-                <li>Home</li>
-                <li>Home</li>
-                <li>Profile</li>
-            </ul>
-        </nav>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="/">ReAccess</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/register">Register</a></li>
+                    <li><a href="/login" class="login">Login</a></li>
+                </ul>
+            </nav>
 
         <section>
+            <div class=".rStatusMessageF"></div>
+
             <h1>Account Registration</h1>
 
-            <form method="post" action="/register">
+            <form name="registration" onsubmit="return validateRegister();">
                 <label>Email Address: </label>
-                <input type="email" name="email"/><br/><br/>
+                <input type="email" id="rEmail" name="email" required/><br/><br/>
 
                 <label>Username: </label>
-                <input type="text" name="username"/><br/><br/>
+                <input type="text" id="rUsername" name="username" required/><br/><br/>
 
                 <label>Name: </label>
-                <input type="text" name="name"/><br/><br/>
+                <input type="text" id="rName" name="name" required/><br/><br/>
 
                 <label>Password: </label>
-                <input type="password" name="password"><br/><br/>
+                <input type="password" id="rPassword" name="rPassword" required/><br/><br/>
 
                 <label>Confirm Password: </label>
-                <input type="confirmPassword" name="confirmPassword"><br/><br/>
+                <input type="password" id="rConfirmPassword" name="confirmPassword" required/><br/><br/>
 
                 <input type="submit" value="Register"/>
             </form>
         </section>
 
         <footer>
-
         </footer>
 
         </main>

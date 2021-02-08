@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <script src='/js/jquery.min.js'></script>
+        <script src='/js/dashboard.js'></script>
+        
+        <link rel="stylesheet" href="/css/style.css"/>
+    </head>
+
+    <body>
+        <main>
+
+        <nav class="navigation">
+            <ul>
+                <li><a href="/">LOGO</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/logout">Log Out</a></li>
+            </ul>
+        </nav>
+
+        <div id="DBstatusMessageS" style="color: white; background-color: lime; width: 100%;">
+        </div>
+
+        <div id="DBstatusMessageF" style="color: white; background-color:red; width: 100%;">
+        </div>
+
+        <button id="viewUsersBTN">View Users</button><br/>
+        
+        <section id="viewUsers">
+            <table border="1" style="border-collapse:collapse; width: 80%; text-align: center;">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Username</th>
+                        <th>Name</th>
+                        <th>Email Address</th>
+                        <th>Ban Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody class="DBusers">
+                </tbody>
+                
+            </table>
+        </section>
+
+        <footer>
+            &copy; Copyright 2021
+        </footer>
+
+        </main>
+    </body>
+</html>
