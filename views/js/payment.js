@@ -92,12 +92,12 @@ function checkout() {
             //If Validated
             else
             {
-                sessionStorage.removeItem("pgamePrice");
-                sessionStorage.removeItem("pgameGenre");
-                sessionStorage.removeItem("pgameId");
-                sessionStorage.removeItem("SgameID");
+                    sessionStorage.removeItem("pgamePrice");
+                    sessionStorage.removeItem("pgameGenre");
+                    sessionStorage.removeItem("pgameId");
+                    sessionStorage.removeItem("SgameID");
 
-                window.location.href = "/";
+                    window.location.href = "/";
             }
         }
     )

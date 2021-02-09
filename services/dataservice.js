@@ -93,7 +93,7 @@ var database = {
                 userModel = connection.model("users", userSchema);
                 gameModel = connection.model("games", gameSchema);
                 statModel = connection.model("stats", statSchema);
-                orderhistoryModel = connection.model("orderhistory", orderhistorySchema);
+                orderhistoryModel = connection.model("orderhistories", orderhistorySchema);
 
             }
             

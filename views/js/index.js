@@ -27,7 +27,7 @@ $(document).ready(function() {
                     //If Game Is Not Free
                     if (game.price > 0)
                     {
-                        //If User Has Not Paid For The Game
+                        //If User Has No Order History
                         if (Object.keys(data.OH).length < 1)
                         {
                             $(".games").append(`
@@ -56,24 +56,57 @@ $(document).ready(function() {
                         //If User Has Paid For The Game
                         else
                         {
-                            $(".games").append(`
-                            <tr>
-                            <td><img src="${game.image}" width="40%"/></td>
-                            <td>${game.name}</td>
-                            <td>${game.genre}</td>
-                            <td>$${game.price}</td>
-                            <td>
-                            <form onsubmit="return playGame();">
-                            <input type="submit" id="${game.gameid}" class="playBTN" value="Play Now!"/>
-                            </form>
-                            </td>
-                            </tr>`);
+                            for (i = 0; i < data.OH.length; i++)
+                            {
+                                console.log(data.OH[i].gameid);
+                                if (data.OH[i].gameid === game.gameid)
+                                {
+                                    $(".games").append(`
+                                    <tr>
+                                    <td><img src="${game.image}" width="40%"/></td>
+                                    <td>${game.name}</td>
+                                    <td>${game.genre}</td>
+                                    <td style="color: lime;"><b>OWNED</b></td>
+                                    <td>
+                                    <form onsubmit="return playGame();">
+                                    <input type="submit" id="${game.gameid}" class="playBTN" value="Play Now!"/>
+                                    </form>
+                                    </td>
+                                    </tr>`);
 
-                            $('.playBTN').click(function(e) {
-                                var storeGID = $(e.target).attr('id');
-    
-                                sessionStorage.setItem("SgameID", storeGID);
-                            });
+                                    $('.playBTN').click(function(e) {
+                                        var storeGID = $(e.target).attr('id');
+            
+                                        sessionStorage.setItem("SgameID", storeGID);
+                                    });
+                                }
+
+                                //If User Has Not Paid For The Game
+                                else
+                                {
+                                    $(".games").append(`
+                                    <tr>
+                                    <td><img src="${game.image}" width="40%"/></td>
+                                    <td>${game.name}</td>
+                                    <td>${game.genre}</td>
+                                    <td>$${game.price}</td>
+                                    <td>
+                                    <form onsubmit="return buyGame();">
+                                    <input type="submit" id="${game.gameid}" class="buyButton" value="BUY"/>
+                                    </form>
+                                    </td>
+                                    </tr>`);
+
+                                    $('.buyButton').click(function(e) {
+                                        var storeGID = $(e.target).attr('id');
+                                        
+                                        sessionStorage.setItem("SgameID", storeGID);
+                                        sessionStorage.setItem("pgameName", game.name);
+                                        sessionStorage.setItem("pgameGenre", game.genre);
+                                        sessionStorage.setItem("pgamePrice", game.price);
+                                    });
+                                }
+                            }
                         }
                     }
 

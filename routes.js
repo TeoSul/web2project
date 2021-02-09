@@ -205,8 +205,18 @@ var routes = function () {
         var userid = req.params.uid;
 
         db.getAllGames(function (err, games) {
+
             db.checkOH(userid, function (err, orderhistory) {
-                res.status(200).send({"games": games, "OH": orderhistory});
+                if (err)
+                {
+                    res.status(500).send("failedToLoad");
+                }
+
+                else
+                {
+                    console.log(orderhistory);
+                    res.status(200).send({"games": games, "OH": orderhistory});
+                }
             });
         });
     });
@@ -376,8 +386,6 @@ var routes = function () {
     router.post('/api/search', function (req, res) {
         var name = req.body.searchName;
 
-        console.log(name);
-
         db.searchGame(name, function(err, games) {
             if (err)
             {
@@ -469,7 +477,6 @@ var routes = function () {
 
             else
             {
-                console.log(game);
                 if (game != undefined || game != null)
                 {
                     res.status(200).send(game);
@@ -494,6 +501,9 @@ var routes = function () {
 
         //User + Product Information
         var suid = data.uid;
+
+        console.log("User ID: " + suid);
+
         var sgid = data.gid;
         var sgameprice = data.price;
 
