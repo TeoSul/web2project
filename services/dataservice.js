@@ -63,7 +63,6 @@ var database = {
                     orderid: Number,
                     userid: Number,
                     gameid: Number,
-                    gameprice: Number
                 });
 
                 var connection = mongoose.connection;

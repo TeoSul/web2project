@@ -15,11 +15,11 @@ $(document).ready(function() {
         var gameGenre = sessionStorage.getItem("pgameGenre");
         var gamePrice = sessionStorage.getItem("pgamePrice");
 
-        $('#gameInformation').html(`
-        <p>Name: ${gameName}</p>
-        <p>Genre: ${gameGenre}</p>
-        <p>Price: ${gamePrice}</p>
-        `);
+        // $('#gameInformation').html(`
+        // <p>Name: ${gameName}</p>
+        // <p>Genre: ${gameGenre}</p>
+        // <p>Price: ${gamePrice}</p>
+        // `);
     }
 })
 
