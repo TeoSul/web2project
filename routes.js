@@ -65,7 +65,9 @@ var routes = function () {
         db.getProfile(userid, function (err, user) {
             if (err)
             {
+                res.status(401).send("Unable to get profile with userid.");
                 res.status(500).send("Unable to load profile. Please try again later");
+                
             }
 
             else
@@ -597,13 +599,13 @@ var routes = function () {
                     //Error
                     if (err)
                     {
-                        res.status(500).send("fail");
+                        res.status(500).send("Unsuccessfully Added Order Transaction");
                     }
 
                     //Successfully Added Order Transaction
                     else
                     {
-                        res.status(200).send("success");
+                        res.status(200).send("Successfully Added Order Transaction");
                     }
                 });
             }
@@ -611,7 +613,7 @@ var routes = function () {
             //If Expired
             else
             {
-                res.status(200).send("Exped");
+                res.status(200).send("Expired Card");
             }
         }
 
@@ -621,13 +623,13 @@ var routes = function () {
             //If Not Expired
             if (!expirationCheck)
             {
-                res.status(200).send("wrongCard");
+                res.status(200).send("Wrong Card Number");
             }
 
             //If Expired
             else
             {
-                res.status(200).send("wrongCardandExped");
+                res.status(200).send("Wrong Card Number and Expired");
             }
         }
     });
