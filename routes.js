@@ -74,7 +74,7 @@ var routes = function () {
                 db.getStatsByUID(userid, function (err, stats) {
                     if (err)
                     {
-                        res.status(500).send("Unable to load profile. Please try again later.");
+                        res.status(500).send("Unable to load profile. Please try again laterr.");
                     }
 
                     else
