@@ -42,8 +42,6 @@ function login() {
                     sessionStorage.setItem("userId", response.userid);
                     sessionStorage.setItem("allowTracking", response.allowTracking);
 
-                    console.log("User ID: " + sessionStorage.getItem("userId"));
-
                     if (sessionStorage.getItem("userId") != undefined)
                     {
                         sessionStorage.setItem("login", true);

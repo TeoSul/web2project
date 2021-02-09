@@ -2,9 +2,6 @@ function validateRegister() {
     var iPassword = document.forms["registration"]["rPassword"].value;
     var confirmPassword = document.forms["registration"]["confirmPassword"].value;
 
-    console.log(iPassword);
-    console.log(confirmPassword);
-
     if (iPassword === confirmPassword)
     {
         var userInfo = {

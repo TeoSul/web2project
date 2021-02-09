@@ -64,7 +64,7 @@ $(document).ready(function() {
                     <h3>Account Settings</h3>
 
                     <form onsubmit="return updateSettings();">
-                    <label>Allow Tracking: </label>
+                    <label>Playing Time Tracking: </label>
                     <input type="checkbox" id="trackingConfig"><br/><br/>
 
                     <input type="submit" value="Update Settings"><br/>
@@ -99,37 +99,48 @@ function updateProfile(){
     })
 
     .done(
-        function(response) {
-            console.log(response);
-            
-            if (Object.keys(response).length> 0)
+        function(response) {         
+            //If Verified Password  
+            if (Object.keys(response).length > 0)
             {
                 sessionStorage.setItem("edit", true);
 
+                $("#eStatusMessage").removeClass("error");
+                $("#eStatusMessage").removeClass("success");
+
                 if (sessionStorage.getItem("edit"))
                 {
-                    //window.location.reload();
+                    $('#viewProfile').html(`
+                    <h3>Profile</h3>
+                    <p>Email Address: ${response.email}</p>
+                    <p>Username: ${response.username}</p>
+                    <p>Name: ${response.name}</p><br/>
+                    `);
 
-                    $("#eStatusMessageS").html(`
+                    $("#eStatusMessage").html(`
                     You have successfully updated your profile!
                     `);
 
-                    $("")
+                    $("#eStatusMessage").addClass("success");
                 }
 
                 else
                 {
-                    $("#eStatusMessageF").html(`
+                    $("#eStatusMessage").html(`
                     Unable to update profile. Please try again later.
                     `);
+
+                    $("#eStatusMessage").addClass("error");
                 }
             }
 
             else
             {
-                $("#eStatusMessageF").html(`
+                $("#eStatusMessage").html(`
                 The password you have entered does not match with your current password. Please try again.
                 `);
+
+                $("#eStatusMessage").addClass("error");
             }
         }
     )
@@ -160,20 +171,27 @@ function updateSettings() {
         function (response) {
             console.log(response);
 
+            sessionStorage.setItem("allowTracking", response.allowTracking);
+
+            $("#eStatusMessage").removeClass("error");
+            $("#eStatusMessage").removeClass("success");
+
             if (response != null || response != undefined)
             {
-                //window.location.reload();
-
-                $("#eStatusMessageS").html(`
+                $("#eStatusMessage").html(`
                 You have successfully configured your account!
                 `);
+
+                $("#eStatusMessage").addClass("success");
             }
 
             else
             {
-                $("#eStatusMessageF").html(`
+                $("#eStatusMessage").html(`
                 Unable to configure your account. Please try again later.
                 `);
+
+                $("#eStatusMessage").addClass("error");
             }
         }
     )
@@ -202,6 +220,8 @@ function deleteAccount() {
 
     .done(
         function (response) {
+            $("#eStatusMessage").removeClass("error");
+
             if (response === "lead")
             {
                 window.location.href = "/delete";
@@ -211,20 +231,20 @@ function deleteAccount() {
             {
                 if (response === "whatlead")
                 {
-                    console.log("bubu");
-
-                    $("#eStatusMessageF").html(`
+                    $("#eStatusMessage").html(`
                     The password you have entered does not match with your current password. Please try again.
                     `);
+
+                    $("#eStatusMessage").addClass("error");
                 }
 
                 else
                 {
-                    console.log("dudu");
-
-                    $("#eStatusMessageF").html(`
+                    $("#eStatusMessage").html(`
                     Unable to delete your account. Please try again later.
                     `);
+
+                    $("#eStatusMessage").addClass("error");
                 }
             }
         }

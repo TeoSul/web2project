@@ -29,12 +29,13 @@ $(document).ready(function() {
 
     //Get Game
     $.ajax({
-        url: `/api/games/${SgameID}`,
+        url: `/api/respectiveGames/${SgameID}`,
         method:"get"
     })
 
     .done(
         function(response) {
+            console.log(response)
             $('.gameName').html(`
             ${response.name}
             `);
@@ -51,3 +52,64 @@ $(document).ready(function() {
         }
     );
 })
+
+function storeTime() {
+    stopCount();
+
+    if (confirm("Are you sure you want to leave?"))
+    {
+        var SuserID = sessionStorage.getItem("userId");
+
+        console.log("Debug: " + SuserID);
+
+        var SgameID = sessionStorage.getItem("SgameID");
+        var t = $('#time').val();
+
+        var info = {
+            userid: SuserID,
+            gameid: SgameID,
+            time: t
+        }
+
+        if (SuserID != undefined)
+        {
+            if (sessionStorage.getItem("allowTracking") === "true")
+            {
+                $.ajax({
+                    url: `/api/games/store`,
+                    method: "post",
+                    data: info
+                })
+        
+                .done(
+                    function (response) {
+                        window.close();
+                    }
+                )
+        
+                .fail(
+                    function(err) {
+                        console.log(err.responseText);
+                    }
+                );
+            }
+
+            else
+            {
+                window.close();
+            }
+        }
+
+        else
+        {
+            window.close();
+        }
+    }
+
+    else
+    {
+        startCount();
+    }
+
+    return false;
+}
