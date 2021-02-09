@@ -65,14 +65,42 @@ var routes = function () {
         db.getProfile(userid, function (err, user) {
             if (err)
             {
-                res.status(401).send("Unable to get profile with userid.");
-                res.status(500).send("Unable to load profile. Please try again later");
-                
+                res.status(500).send("Unable to load profile. Please try again later.");
             }
 
             else
             {
-                res.status(200).send(user);
+                //Get Game Statistics By UID
+                db.getStatsByUID(userid, function (err, stats) {
+                    if (err)
+                    {
+                        res.status(500).send("Unable to load profile. Please try again later.");
+                    }
+
+                    else
+                    {
+                        console.log(Object.keys(stats).length);
+                        if (Object.keys(stats).length < 1 || stats === null || stats === undefined)
+                        {
+                            res.status(200).send({"user": user});
+                        }
+
+                        else
+                        {
+                            db.getAllGames(function (err, gamesT) {
+                                if (err)
+                                {
+                                    res.status(500).send("failedToLoad");
+                                }
+
+                                else
+                                {
+                                    res.status(200).send({"user": user, "games": gamesT, "statistics": stats});
+                                }
+                            });
+                        }
+                    }
+                });
             }
         });
     })
@@ -145,12 +173,13 @@ var routes = function () {
         });
     });
 
-    //Delete Account
+    //Delete Account Route
     router.delete('/api/profile/delete/:uid', function (req, res) {
         var userid = req.params.uid;
 
         var data = req.body;
 
+        //Hashing of Password
         const lHash = crypto.createHash("sha512");
         var vPassword = lHash.update(data.password).digest("hex");
 
@@ -163,25 +192,147 @@ var routes = function () {
 
             else
             {
-                //Verified
+                //Verified Password
                 if (user != null || user != undefined)
                 {
+                    //Delete User Account
                     db.deleteAccount(userid, function (err, event) {
                         if (err)
                         {
                             res.status(500).send("Unable to delete your account. Please try again later.");
                         }
 
+                        //No Errors
                         else
                         {
-                            if (event == null || event == undefined)
+                            if (event === null || event === undefined)
                             {
-                                res.status(200).send("nolead");
+                                res.status(500).send("nolead");
                             }
 
                             else
                             {
-                                res.status(200).send("lead");
+                                //Get Game Statistics By UID
+                                db.getStatsByUID(userid, function(err, stats) {
+                                    if (err)
+                                    {
+                                        res.status(500).send("Unable to delete your account. Please try again later.");
+                                    }
+
+                                    //No Errors
+                                    else
+                                    {
+                                        //No Stored Game Statistics
+                                        if (Object.keys(stats).length < 1 || stats === null || stats === undefined)
+                                        {
+                                            //Check For Order History
+                                            db.checkOH(userid, function (err, orderhistory) {
+                                                if (err)
+                                                {
+                                                    res.status(500).send("failedToLoad");
+                                                }
+                                
+                                                else
+                                                {
+                                                    //No Order History
+                                                    if (Object.keys(orderhistory).length < 1 || orderhistory === null || orderhistory === undefined)
+                                                    {
+                                                        res.status(200).send("lead");
+                                                    }
+
+                                                    //Order History Is Present
+                                                    else
+                                                    {
+                                                        //Delete Order History
+                                                        db.deleteOH(userid, function (err, event) {
+                                                            if (err)
+                                                            {
+                                                                res.status(500).send("Unable to delete your account. Please try again later.");
+                                                            }
+
+                                                            else
+                                                            {
+                                                                if (event === null || event === undefined)
+                                                                {
+                                                                    res.status(500).send("nolead");
+                                                                }
+
+                                                                else
+                                                                {
+                                                                    res.status(200).send("lead");
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            });
+                                        }
+
+                                        //Stored Game Statistics Is Present
+                                        else
+                                        {
+                                            //Delete Game Statistics
+                                            db.deleteStats(userid, function (err, event) {
+                                                if (err)
+                                                {
+                                                    res.status(500).send("Unable to delete your account. Please try again later.");
+                                                }
+
+                                                else
+                                                {
+                                                    if (event === null || event === undefined)
+                                                    {
+                                                        res.status(500).send("nolead");
+                                                    }
+
+                                                    else
+                                                    {
+                                                        //Check For Order History
+                                                        db.checkOH(userid, function (err, orderhistory) {
+                                                            if (err)
+                                                            {
+                                                                res.status(500).send("failedToLoad");
+                                                            }
+                                            
+                                                            else
+                                                            {
+                                                                //No Order History
+                                                                if (Object.keys(orderhistory).length < 1 || orderhistory === null || orderhistory === undefined)
+                                                                {
+                                                                    res.status(200).send("lead");
+                                                                }
+
+                                                                else
+                                                                {
+                                                                    //Delete Order History
+                                                                    db.deleteOH(userid, function (err, event) {
+                                                                        if (err)
+                                                                        {
+                                                                            res.status(500).send("Unable to delete your account. Please try again later.");
+                                                                        }
+
+                                                                        else
+                                                                        {
+                                                                            if (event === null || event === undefined)
+                                                                            {
+                                                                                res.status(500).send("nolead");
+                                                                            }
+
+                                                                            else
+                                                                            {
+                                                                                res.status(200).send("lead");
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }
+                                });
                             }
                         }
                     });
@@ -199,8 +350,15 @@ var routes = function () {
     //Get All Games
     router.get('/api/games', function(req, res) {
         db.getAllGames(function (err, games) {
-            
-            res.status(200).send(games);
+            if (err)
+            {
+                res.status(500).send("failedToLoad");
+            }
+
+            else
+            {
+                res.status(200).send(games);
+            }
         });
     });
 
@@ -240,6 +398,7 @@ var routes = function () {
         var gid = data.gameid;
         var t = data.time;
 
+        //Retrieve Game Statistics with UID + GID
         db.getStats(uid, gid, function (err, stats) {
             if (err)
             {
@@ -248,23 +407,16 @@ var routes = function () {
 
             else
             {
-                console.log(stats);
-
                 if (Object.keys(stats).length < 1)
                 {
-                    console.log("wrap");
-
                     db.addStats(uid, gid, t, function (err, stat) {
                         if (err)
                         {
-                            console.log("BLOOP");
-
                             res.status(500).send("Unable to store game statistics. Please contact a developer immediately!");
                         }
 
                         else
                         {
-                            console.log("KAI");
                             res.status(200).send(data);
                         }
                     });
@@ -272,8 +424,6 @@ var routes = function () {
 
                 else
                 {
-                    console.log("rap");
-
                     db.updateStats(uid, gid, t, function (err, stat) {
                         if (err)
                         {
@@ -305,8 +455,8 @@ var routes = function () {
 
         const lHash = crypto.createHash("sha512");
 
-        db.getUserByE(email, function(err, user) {  
-            console.log(user);
+        db.getUserByE(email, function(err, user) {
+
             if (err)
             {
                 res.status(500).send("Unable to register. Please try again later.");
@@ -326,18 +476,18 @@ var routes = function () {
 
                 console.log("Email Check: " + emailCheck);
 
-                if (emailCheck === false || emailCheck === undefined || emailCheck === null)
+                if (emailCheck === false)
                 {
                     db.addUser(data.username, data.name, data.email, 
                         lHash.update(data.password).digest("hex"),
                         function (err, user) {
-                            res.send({"register" : true});
+                            res.status(200).send({"register" : true});
                         });
                 }
 
                 else
                 {
-                    res.send({});
+                    res.status(200).send({});
                 }
             }
         });
@@ -353,6 +503,8 @@ var routes = function () {
         var data = req.body;
 
         var email = data.lEmail;
+
+        console.log(data.lPassword);
 
         const lHash = crypto.createHash("sha512");
         var password = lHash.update(data.lPassword).digest("hex");
@@ -513,7 +665,46 @@ var routes = function () {
                     db.updateBanStatus(userid, banStatus, function(err, user) {
                         if (err)
                         {
-                            res.send(500).send("Unable to execute action. Please try again later.");
+                            res.status(500).send("Unable to execute action. Please try again later.");
+                        }
+            
+                        else
+                        {
+                            res.status(200).send(data);
+                        }
+                    });
+                }
+
+                else
+                {
+                    res.send(500).send("Unable to execute action. Please try again later.");
+                }
+            }
+        });
+    });
+
+    //Unban User
+    router.put('/api/dashboard/unban/:uid', function (req, res) {
+        var userid = req.params.uid;
+
+        var data = req.body;
+
+        var banStatus = data.banned;
+
+        db.getProfile(userid, function (err, user) {
+            if (err)
+            {
+                res.status(500).send("Unable to retrieve user information. Please try again later");
+            }
+
+            else
+            {
+                if (Object.keys(user).length > 0 || user != null || user != undefined)
+                {
+                    db.updateBanStatus(userid, banStatus, function(err, user) {
+                        if (err)
+                        {
+                            res.status(500).send("Unable to execute action. Please try again later.");
                         }
             
                         else
@@ -599,13 +790,13 @@ var routes = function () {
                     //Error
                     if (err)
                     {
-                        res.status(500).send("Unsuccessfully Added Order Transaction");
+                        res.status(500).send("fail");
                     }
 
                     //Successfully Added Order Transaction
                     else
                     {
-                        res.status(200).send("Successfully Added Order Transaction");
+                        res.status(200).send("success");
                     }
                 });
             }
@@ -613,7 +804,7 @@ var routes = function () {
             //If Expired
             else
             {
-                res.status(200).send("Expired Card");
+                res.status(200).send("Exped");
             }
         }
 
@@ -623,13 +814,13 @@ var routes = function () {
             //If Not Expired
             if (!expirationCheck)
             {
-                res.status(200).send("Wrong Card Number");
+                res.status(200).send("wrongCard");
             }
 
             //If Expired
             else
             {
-                res.status(200).send("Wrong Card Number and Expired");
+                res.status(200).send("wrongCardandExped");
             }
         }
     });

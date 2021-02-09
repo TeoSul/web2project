@@ -20,11 +20,13 @@
             </nav>
 
         <section>
-            <div class=".rStatusMessageF"></div>
+            <div style="background-color: aqua; height:10px"></div>
 
-            <h1>Account Registration</h1>
+            <div id="rStatusMessage" style="background-color:red; width:100%; color:white; text-align: center;"></div><br/>
 
-            <form name="registration" onsubmit="return validateRegister();">
+            <h1 style="text-align:center;">Account Registration</h1>
+
+            <form name="registration" onsubmit="return validateRegister();" style="margin-left:640px;">
                 <label>Email Address: </label>
                 <input type="email" id="rEmail" name="email" required/><br/><br/>
 
@@ -40,11 +42,12 @@
                 <label>Confirm Password: </label>
                 <input type="password" id="rConfirmPassword" name="confirmPassword" required/><br/><br/>
 
-                <input type="submit" value="Register"/>
+                <input type="submit" value="Register" style="margin-left:80px;"/>
             </form>
         </section>
 
-        <footer>
+        <footer style="text-align: center; height: 40px; background-color: #0E4D92; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+            <p style="color: snow; padding-top:10px;">&copy; Copyright 2021</p>
         </footer>
 
         </main>

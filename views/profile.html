@@ -20,19 +20,40 @@
                 </ul>
             </nav>
 
-        <div style="background-color: aqua; height:10px"></div><br/>
+        <div style="background-color: aqua; height:10px"></div>
 
         <div id="eStatusMessage" style="text-align:center;">
         </div>
 
-        <section id="viewProfile">
-        </section>
+        <div class="userInformation">
+            <div class="accountManagement">
+                <section id="viewProfile">
+                </section>
+        
+                <section id="editProfile">
+                </section><br/>
+        
+                <section id="administration">
+                </section>
+            </div>
 
-        <section id="editProfile">
-        </section><br/>
+            <div class="userStatistics" style="margin-left:300px;">
+                <h3 style="text-align: center;">Game Statistics</h3>
 
-        <section id="administration">
-        </section>
+                <table border="1" style="border-collapse:collapse;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Genre</th>
+                            <th>Total Time Played</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="timePlayed">
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <hr>
         
@@ -50,8 +71,8 @@
             </form>
         </section>
 
-        <footer>
-            &copy; Copyright 2021
+        <footer style="text-align: center; height: 40px; background-color: #0E4D92; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+            <p style="color: snow; padding-top:10px;">&copy; Copyright 2021</p>
         </footer>
 
         </main>

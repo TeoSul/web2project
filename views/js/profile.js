@@ -15,12 +15,12 @@ $(document).ready(function() {
         })
 
         .done(
-            function (user) {
+            function (data) {
                 $('#viewProfile').html(`
                 <h3>Profile</h3>
-                <p>Email Address: ${user.email}</p>
-                <p>Username: ${user.username}</p>
-                <p>Name: ${user.name}</p><br/>
+                <p>Email Address: ${data.user.email}</p>
+                <p>Username: ${data.user.username}</p>
+                <p>Name: ${data.user.name}</p><br/>
                 `);
 
                 $('#editProfile').html(`
@@ -28,13 +28,13 @@ $(document).ready(function() {
 
                 <form onsubmit="return updateProfile();">
                 <label>Email Address: </label>
-                <input type="email" name="eEmail" id="eEmail" value="${user.email}" required><br/><br/>
+                <input type="email" name="eEmail" id="eEmail" value="${data.user.email}" required><br/><br/>
 
                 <label>Username: </label>
-                <input type="text" name="eUsername" id="eUsername" value="${user.username}" required><br/><br/>
+                <input type="text" name="eUsername" id="eUsername" value="${data.user.username}" required><br/><br/>
                 
                 <label>Name: </label>
-                <input type="text" name="eName" id="eName" value="${user.name}" required><br/><br/>
+                <input type="text" name="eName" id="eName" value="${data.user.name}" required><br/><br/>
 
                 <label>Password: </label>
                 <input type="password" name="ePassword" id="c2ePassword" required><br/>
@@ -44,7 +44,46 @@ $(document).ready(function() {
                 </form>
                 `);
 
-                if (user.allowTracking === true)
+                if (Object.keys(data).length > 1)
+                {
+                    data.statistics.forEach(function(stat) {
+                        data.games.forEach(function(game) {
+                            if (stat.gameid === game.gameid)
+                            {
+                                $('#timePlayed').append(`
+                                <tr>
+                                <td>${game.name}</td>
+                                <td>${game.genre}</td>
+                                <td>${stat.time} seconds</td>
+                                </tr>
+                                `);
+                            }
+                        });
+                    });
+                }
+
+                else
+                {
+                    $('#timePlayed').html(`
+                    <tr>
+                    <td colspan="3">You have not played any games yet.</td>
+                    </tr>
+                    `);
+                }
+
+                if (sessionStorage.getItem("admin") === "true")
+                {
+                    $('#administration').html(`
+
+                    <h3>Administration</h3>
+
+                    <form method="get" action="/dashboard">
+                    <input type="submit" value="Admin Dashboard">
+                    </form>
+                    `);
+                }
+
+                if (data.user.allowTracking === true)
                 {
                     $('#accountSettings').html(`
                     <h3>Account Settings</h3>
@@ -82,6 +121,7 @@ $(document).ready(function() {
     }
 })
 
+//Update Profile
 function updateProfile(){
     var userId = sessionStorage.getItem("userId");
 
@@ -154,6 +194,7 @@ function updateProfile(){
     return false;
 }
 
+//Update Settings
 function updateSettings() {
     var userId = sessionStorage.getItem("userId");
 
@@ -205,6 +246,7 @@ function updateSettings() {
     return false;
 }
 
+//Delete Account
 function deleteAccount() {
     var userId = sessionStorage.getItem("userId");
 
@@ -220,10 +262,13 @@ function deleteAccount() {
 
     .done(
         function (response) {
+            $("#eStatusMessage").removeClass("success");
             $("#eStatusMessage").removeClass("error");
 
             if (response === "lead")
             {
+                alert("You have successfully deleted your account!");
+
                 window.location.href = "/delete";
             }
 

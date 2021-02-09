@@ -24,16 +24,25 @@ $(document).ready(function() {
 
             .done(
                 function (data) {
-
-                    console.log("S UID: " + sUID);
                     data.forEach(function(user) {
 
-                        console.log("DB UID: " + user.userid);
-
+                            //User Is Banned
                             if (user.banned)
                             {
-                                
-                                if (user.userid === sUID)
+                                if (user.userid.toString() === sUID)
+                                {
+                                    $(".DBusers").append(`
+                                    <tr>
+                                    <td>${user.userid}</td>
+                                    <td>${user.username}</td>
+                                    <td>${user.name}</td>
+                                    <td>${user.email}</td>
+                                    <td class="banStatus" value="${user.banned}"><b style="color: red;">YES</b></td>
+                                    <td></td>
+                                    </tr>`);
+                                }
+
+                                else if (user.admin)
                                 {
                                     $(".DBusers").append(`
                                     <tr>
@@ -60,9 +69,24 @@ $(document).ready(function() {
                                 }
                             }
 
+                            //User Is Not Banned
                             else
                             {
+                                //User
                                 if (user.userid === sUID)
+                                {
+                                    $(".DBusers").append(`
+                                    <tr>
+                                    <td>${user.userid}</td>
+                                    <td>${user.username}</td>
+                                    <td>${user.name}</td>
+                                    <td>${user.email}</td>
+                                    <td><b style="color: green;">NO</b></td>
+                                    <td class="banStatus"></td>
+                                    </tr>`);
+                                }
+
+                                else if (user.admin)
                                 {
                                     $(".DBusers").append(`
                                     <tr>
@@ -90,9 +114,8 @@ $(document).ready(function() {
                             }
                     })
                     
+                    //Ban Button onClick
                     $(".banUserBTN").click(function() {
-                        console.log("test");
-        
                         var userid = $('.banUserBTN').val();
                     
                         console.log("Banning: " + userid);
@@ -106,8 +129,7 @@ $(document).ready(function() {
                                 url:`/api/dashboard/ban/${userid}`,
                                 method: 'put',
                                 data: userInfo
-                            }
-                            
+                            }  
                         )
                     
                         .done(
@@ -119,13 +141,11 @@ $(document).ready(function() {
                                     if (sessionStorage.getItem("bannedUser"))
                                     {
                                         window.location.reload();
-
-                                        $('.DBstatusMessageS').html(`You have successfully executed a ban on ${response.username}`);
                                     }
                     
                                     else
                                     {
-                                        $('.DBstatusMessageF').html(`Unable to execute action on ${response.username}. Please try again later.`);
+                                        $('.DBstatusMessage').html(`Unable to execute action on ${response.username}. Please try again later.`);
                     
                                         return false;
                                     }
@@ -133,11 +153,10 @@ $(document).ready(function() {
                     
                                 else
                                 {
-                                    $('.DBstatusMessageF').html(`Unable to execute action on ${response.username}. Please try again later.`);
+                                    $('.DBstatusMessage').html(`Unable to execute action on ${response.username}. Please try again later.`);
                     
                                     return false;
                                 }
-                    
                             }
                         )
                     
@@ -146,19 +165,51 @@ $(document).ready(function() {
                                 console.log(err.responseText);
                             }
                         );
+
+                        return false;
                     });
                     
-                    $('.unbanUserBTN').on('click', function() {
+                    //Unban Button onClick
+                    $(".unbanUserBTN").click(function() {
+                        var userid = $('.unbanUserBTN').val();
+
+                        var userInfo = {
+                            banned: false
+                        }
+
                         $.ajax(
                             {
                                 url:`/api/dashboard/unban/${userid}`,
-                                method: 'put'
+                                method: 'put',
+                                data: userInfo
                             }
                         )
                     
                         .done(
                             function(response) {
-                                window.location.reload();
+                                if (response.banned === "false")
+                                {
+                                    sessionStorage.setItem("bannedUser", false);
+                                    
+                                    if (sessionStorage.getItem("bannedUser") === "false")
+                                    {
+                                        window.location.reload();
+                                    }
+                    
+                                    else
+                                    {
+                                        $('.DBstatusMessage').html(`Unable to execute action on ${response.username}. Please try again later.`);
+                    
+                                        return false;
+                                    }
+                                }
+                    
+                                else
+                                {
+                                    $('.DBstatusMessage').html(`Unable to execute action on ${response.username}. Please try again later.`);
+                    
+                                    return false;
+                                }
                             }
                         )
                     
@@ -167,6 +218,8 @@ $(document).ready(function() {
                                 console.log(err.responseText);
                             }
                         );
+
+                        return false;
                     });
                 }
             )
@@ -177,7 +230,7 @@ $(document).ready(function() {
                 }
             );
 
-            
+            return false;
         }
     }
 })
