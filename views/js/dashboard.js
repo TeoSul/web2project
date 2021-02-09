@@ -33,7 +33,7 @@ $(document).ready(function() {
                             if (user.banned)
                             {
                                 
-                                if (user.userid == sUID)
+                                if (user.userid === sUID)
                                 {
                                     $(".DBusers").append(`
                                     <tr>
@@ -62,7 +62,7 @@ $(document).ready(function() {
 
                             else
                             {
-                                if (user.userid == sUID)
+                                if (user.userid === sUID)
                                 {
                                     $(".DBusers").append(`
                                     <tr>

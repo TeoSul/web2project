@@ -85,9 +85,11 @@ var routes = function () {
         var username = data.username;
         var name = data.name;
 
+        //Hashing of Password
         const lHash = crypto.createHash("sha512");
         var password = lHash.update(data.password).digest("hex");
 
+        //Check If Password Is Correct
         db.getUserByUIDnPass(userid, password, function (err, user) {
             if (err)
             {
@@ -205,19 +207,26 @@ var routes = function () {
         var userid = req.params.uid;
 
         db.getAllGames(function (err, games) {
+            if (err)
+            {
+                res.status(500).send("failedToLoad");
+            }
 
-            db.checkOH(userid, function (err, orderhistory) {
-                if (err)
-                {
-                    res.status(500).send("failedToLoad");
-                }
-
-                else
-                {
-                    console.log(orderhistory);
-                    res.status(200).send({"games": games, "OH": orderhistory});
-                }
-            });
+            else
+            {
+                db.checkOH(userid, function (err, orderhistory) {
+                    if (err)
+                    {
+                        res.status(500).send("failedToLoad");
+                    }
+    
+                    else
+                    {
+                        console.log(orderhistory);
+                        res.status(200).send({"games": games, "OH": orderhistory});
+                    }
+                });
+            }
         });
     });
 
@@ -377,6 +386,66 @@ var routes = function () {
                 else
                 {
                     res.status(200).send("zero");
+                }
+            }
+        });
+    });
+
+    //Send Search Input from User (Logged In)
+    router.post('/api/search/:uid', function (req, res) {
+        var userid = req.params.uid;
+        var name = req.body.searchName;
+
+        db.searchGame(name, function(err, games) {
+            if (err)
+            {
+                res.status(500).send("Unable to search for games. Please try again later");
+            }
+
+            else
+            {
+                //Empty Search String
+                if (name === "" || name === null || name === undefined)
+                {
+                    db.getAllGames(function (err, games) {
+                        if (err)
+                        {
+                            res.status(500).send("failedToLoad");
+                        }
+            
+                        else
+                        {
+                            db.checkOH(userid, function (err, orderhistory) {
+                                if (err)
+                                {
+                                    res.status(500).send("failedToLoad");
+                                }
+                
+                                else
+                                {
+                                    console.log(orderhistory);
+                                    res.status(200).send({"games": games, "OH": orderhistory});
+                                }
+                            });
+                        }
+                    });
+                }
+
+                //Got Search Input From User
+                else
+                {
+                    db.checkOH(userid, function (err, orderhistory) {
+                        if (err)
+                        {
+                            res.status(500).send("failedToLoad");
+                        }
+        
+                        else
+                        {
+                            console.log(orderhistory);
+                            res.status(200).send({"games": games, "OH": orderhistory});
+                        }
+                    });
                 }
             }
         });
