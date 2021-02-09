@@ -19,7 +19,7 @@ function validateRegister() {
     
         .done(
             function(response) {
-                if (response != undefined || response != null)
+                if (Object.keys(response).length > 0)
                 {
                     sessionStorage.setItem("register", true);
                     
@@ -28,8 +28,8 @@ function validateRegister() {
     
                 else
                 {
-                    $(".rStatusMessageF").append(`
-                    A user already exists with that email. Please try again with a different email.
+                    $("#rStatusMessage").html(`
+                    The email address you have entered has been associated with an existing account. Please try again with a different email.
                     `);
                 }
             }
@@ -46,7 +46,9 @@ function validateRegister() {
 
     else
     {
-        alert("The passwords you have entered do not match. Please try again.");
+        $('#rStatusMessage').html(`
+        The passwords you have entered do not match. Please try again.
+        `);
 
         return false;
     }

@@ -119,7 +119,7 @@ var database = {
         newUser.save(callback);
     },
 
-    //Check for/Retrieve stat documents
+    //Check for/Retrieve stat documents with UID + GID
     getStats: function (uid, gid, callback) {
         statModel.find({
             userid: uid, gameid: gid
@@ -244,6 +244,27 @@ var database = {
     //Delete user
     deleteAccount: function(uid, callback) {
         userModel.deleteOne({
+            'userid': uid
+        }, callback);
+    },
+
+    //Get game statistics with only UID
+    getStatsByUID: function (uid, callback) {
+        statModel.find({
+            userid: uid
+        }, callback);
+    },
+
+    //Delete game statistics
+    deleteStats: function(uid, callback) {
+        statModel.deleteMany({
+            'userid': uid
+        }, callback);
+    },
+
+    //Delete order history
+    deleteOH: function(uid, callback) {
+        orderhistoryModel.deleteMany({
             'userid': uid
         }, callback);
     }

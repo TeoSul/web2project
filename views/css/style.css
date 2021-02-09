@@ -51,6 +51,10 @@ th{
     color: snow;
 }
 
+.userInformation{
+    display:flex;
+}
+
 .error{
     background-color: red;
     width: 100%;
