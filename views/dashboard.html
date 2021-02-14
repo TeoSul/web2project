@@ -6,6 +6,8 @@
         <script src='/js/dashboard.js'></script>
         
         <link rel="stylesheet" href="/css/style.css"/>
+
+        <title>Admin Dashboard</title>
     </head>
 
     <body>
@@ -24,27 +26,48 @@
 
         <div id="DBstatusMessage">
         </div><br/>
+
+        <h2 style="text-align:center; text-decoration:underline;">Admin Dashboard</h2>
         
         <section id="viewUsers">
-            <h3 style="text-align:center;">View Users</h3>
+            <h3 style="text-align:center;">User Information</h3>
 
-            <table border="1" style="border-collapse:collapse; width: 80%; margin-left: auto; margin-right: auto;">
+            <table border="1" style="border-collapse:collapse; width:80%; margin-left:auto; margin-right:auto; margin-bottom:60px;">
                 <thead>
                     <tr>
-                        <th>User ID</th>
+                        <th style="width:80px;">User ID</th>
                         <th>Username</th>
                         <th>Name</th>
                         <th>Email Address</th>
+                        <th>Role</th>
                         <th>Ban Status</th>
-                        <th></th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 
                 <tbody class="DBusers">
                 </tbody>
-                
             </table>
         </section>
+
+        <section id="viewLogs">
+            <h3 style="text-align:center;">Server Logs</h3>
+
+            <table border="1" style="border-collapse:collapse; width:80%; margin-left:auto; margin-right:auto;">
+                <thead>
+                    <tr>
+                        <th style="width:80px;">Log ID</th>
+                        <th>Username</th>
+                        <th style="width:400px;">Description</th>
+                        <th>Category</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+
+                <tbody class="DBlogs">
+                </tbody>
+            </table>
+        </section><br/>
 
         <footer style="text-align: center; height: 40px; background-color: #0E4D92; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
             <p style="color: snow; padding-top:10px;">&copy; Copyright 2021</p>

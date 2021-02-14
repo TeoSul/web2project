@@ -25,8 +25,6 @@ $(document).ready(function() {
     
     var SgameID = sessionStorage.getItem("SgameID");
 
-    console.log(SgameID);
-
     //Get Game
     $.ajax({
         url: `/api/respectiveGames/${SgameID}`,
@@ -35,12 +33,10 @@ $(document).ready(function() {
 
     .done(
         function(response) {
-            console.log(response)
+
             $('.gameName').html(`
             ${response.name}
             `);
-
-            console.log("HELLO " + response.name);
 
             startCount();
         },
@@ -71,7 +67,8 @@ function storeTime() {
             time: t
         }
 
-        if (SuserID != undefined)
+        //If Got Logged In User
+        if (sessionStorage.getItem("login"))
         {
             if (sessionStorage.getItem("allowTracking") === "true")
             {
@@ -94,14 +91,17 @@ function storeTime() {
                 );
             }
 
+            //Close Game Without Tracking
             else
             {
                 window.close();
             }
         }
 
+        //No Logged In User
         else
         {
+            //Close Game When User Leaves
             window.close();
         }
     }

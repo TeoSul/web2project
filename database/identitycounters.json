@@ -1,0 +1,41 @@
+[{
+  "_id": {
+    "$oid": "5fe958b28a3b2e0e809a8511"
+  },
+  "model": "userModel",
+  "field": "userid",
+  "count": 2,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5fe958b28a3b2e0e809a8512"
+  },
+  "model": "gameModel",
+  "field": "gameid",
+  "count": 10,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6020da9cc8d2144ea429ebcf"
+  },
+  "model": "statModel",
+  "field": "statid",
+  "count": 0,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6021338618712d4500f963ee"
+  },
+  "model": "orderhistoryModel",
+  "field": "orderid",
+  "count": -1,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6024e43e74e6712b286b883c"
+  },
+  "model": "logModel",
+  "field": "logid",
+  "count": 12,
+  "__v": 0
+}]

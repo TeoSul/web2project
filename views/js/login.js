@@ -4,6 +4,8 @@ $(document).ready(function() {
         $(".statusMessage").html(`
         You have successfully created an account! Proceed to login below!
         `);
+
+        sessionStorage.removeItem("register");
     }
 
     if (sessionStorage.getItem("login"))
@@ -28,8 +30,9 @@ function login() {
 
     .done(
         function (response) {
-            if (response != "zero")
+            if (response !== "zero")
             {
+                //If Account Is Banned
                 if (response.banned)
                 {
                     $(".lStatusMessageF").html(`
@@ -37,6 +40,7 @@ function login() {
                     `);
                 }
 
+                //Account Is Not Banned
                 else
                 {
                     sessionStorage.setItem("userId", response.userid);
@@ -48,11 +52,13 @@ function login() {
 
                         if (sessionStorage.getItem("login"))
                         {
-                            if (response.admin)
+                            //If User Is An Admin
+                            if (response.role === "Admin")
                             {
                                 sessionStorage.setItem("admin", true);
                             }
 
+                            //User Is Not An Admin
                             else
                             {
                                 sessionStorage.setItem("admin", false);

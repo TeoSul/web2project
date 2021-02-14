@@ -29,6 +29,7 @@ function checkout() {
     var gameId = sessionStorage.getItem("SgameID");
     var gamePrice = sessionStorage.getItem("pgamePrice");
 
+    //Payment Information
     var paymentInfo = {
         cardNo: $('#pCardNo').val(),
         cvv: $('#pCVV').val(),
