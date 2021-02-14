@@ -1,0 +1,157 @@
+[{
+  "_id": {
+    "$oid": "6026237d21910e0c4c5ef3c0"
+  },
+  "logid": 0,
+  "userid": 0,
+  "description": "user1 logged into the system.",
+  "category": "Authentication",
+  "timestamp": {
+    "$date": "2021-02-12T14:43:09Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "60267b37aa9ecc02d4521f4f"
+  },
+  "logid": 1,
+  "userid": 1,
+  "description": "admin logged into the system.",
+  "category": "Authentication",
+  "timestamp": {
+    "$date": "2021-02-12T20:57:27Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "60267be79af00e38e891d6a4"
+  },
+  "logid": 2,
+  "userid": 1,
+  "description": "admin logged into the system.",
+  "category": "Authentication",
+  "timestamp": {
+    "$date": "2021-02-12T21:00:23Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "602775ebdca07a47a8158c12"
+  },
+  "logid": 3,
+  "userid": 1,
+  "description": "admin logged into the system.",
+  "category": "Authentication",
+  "timestamp": {
+    "$date": "2021-02-13T14:47:07Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "60287e566c4ade4a2863a8c1"
+  },
+  "logid": 4,
+  "userid": 1,
+  "description": "admin logged into the system.",
+  "category": "Authentication",
+  "timestamp": {
+    "$date": "2021-02-14T09:35:18Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "60288486767cb745a0ae0d8f"
+  },
+  "logid": 5,
+  "userid": 0,
+  "description": "user1 logged into the system.",
+  "category": "Authentication",
+  "timestamp": {
+    "$date": "2021-02-14T10:01:42Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6028848e767cb745a0ae0d90"
+  },
+  "logid": 6,
+  "userid": 1,
+  "description": "admin logged into the system.",
+  "category": "Authentication",
+  "timestamp": {
+    "$date": "2021-02-14T10:01:50Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "60289f89f066b82ddc902d42"
+  },
+  "logid": 7,
+  "userid": 0,
+  "description": "user1EDIT logged into the system.",
+  "category": "Authentication",
+  "timestamp": {
+    "$date": "2021-02-14T11:56:57Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "60289fa1f066b82ddc902d43"
+  },
+  "logid": 8,
+  "userid": 0,
+  "description": "user1EDIT logged into the system.",
+  "category": "Authentication",
+  "timestamp": {
+    "$date": "2021-02-14T11:57:21Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6028b94b576fd642c46f906f"
+  },
+  "logid": 9,
+  "userid": 1,
+  "description": "admin logged into the system.",
+  "category": "Authentication",
+  "timestamp": {
+    "$date": "2021-02-14T13:46:51Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6028bfc263b8e90914bad631"
+  },
+  "logid": 10,
+  "userid": 1,
+  "description": "admin logged into the system.",
+  "category": "Authentication",
+  "timestamp": {
+    "$date": "2021-02-14T14:14:26Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6028fae1edc5712ad0a93545"
+  },
+  "logid": 11,
+  "userid": 1,
+  "description": "admin logged into the system.",
+  "category": "Authentication",
+  "timestamp": {
+    "$date": "2021-02-14T18:26:41Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6028fb92edc5712ad0a93546"
+  },
+  "logid": 12,
+  "userid": 0,
+  "description": "user1EDIT logged into the system.",
+  "category": "Authentication",
+  "timestamp": {
+    "$date": "2021-02-14T18:29:38Z"
+  },
+  "__v": 0
+}]

@@ -1,0 +1,2359 @@
+{
+	"info": {
+		"_postman_id": "08bf7fb6-2854-443b-bc32-ebd975ece00a",
+		"name": "projectDB",
+		"description": "postman scripit for WEB 2.0 project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Account",
+			"item": [
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Login (Success)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "lEmail",
+											"value": "user1@test.com",
+											"type": "text"
+										},
+										{
+											"key": "lPassword",
+											"value": "123",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"login"
+									]
+								},
+								"description": "error"
+							},
+							"response": []
+						},
+						{
+							"name": "Login (Wrong Password)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "lEmail",
+											"value": "user1@test.com",
+											"type": "text"
+										},
+										{
+											"key": "lPassword",
+											"value": "222",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"login"
+									]
+								},
+								"description": "error"
+							},
+							"response": []
+						},
+						{
+							"name": "Login (Wrong Email)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "lEmail",
+											"value": "potato@test.com",
+											"type": "text"
+										},
+										{
+											"key": "lPassword",
+											"value": "123",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"login"
+									]
+								},
+								"description": "error"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Register",
+					"item": [
+						{
+							"name": "Register User (Success)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "PMtest",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "PMtest",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "PMtest@test.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "555",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register User (Email Taken)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "PMtest",
+											"type": "text"
+										},
+										{
+											"key": "username",
+											"value": "potato",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "PMtest@test.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "555",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register User (Username Taken) Copy",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "PMtest",
+											"type": "text"
+										},
+										{
+											"key": "username",
+											"value": "PMtest",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "potato@test.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "555",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Settings",
+					"item": [
+						{
+							"name": "Update Settings (Success)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "allowTracking",
+											"value": "true",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/profile/settings/0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile",
+										"settings",
+										"0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Settings (Fail)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "allowTracking",
+											"value": "true",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/profile/settings/a",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile",
+										"settings",
+										"a"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"item": [
+						{
+							"name": "Delete Account (Success)",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "password",
+											"value": "123",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/profile/delete/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile",
+										"delete",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Account (Invalid Password)",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "password",
+											"value": "222",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/profile/delete/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile",
+										"delete",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Account (Fail)",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "password",
+											"value": "123",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/profile/delete/a",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile",
+										"delete",
+										"a"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "User Information",
+					"item": [
+						{
+							"name": "Get User Profile (Success)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/profile/0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile",
+										"0"
+									]
+								},
+								"description": "Success"
+							},
+							"response": []
+						},
+						{
+							"name": "Get User Profile (Fail)",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/profile/a",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile",
+										"a"
+									]
+								},
+								"description": "fail error"
+							},
+							"response": []
+						},
+						{
+							"name": "Get User Profile (No Profile)",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/profile/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile",
+										"2"
+									]
+								},
+								"description": "fail error"
+							},
+							"response": []
+						},
+						{
+							"name": "Edit User Profile (Success)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "user1",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "user1",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "user1@test.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123",
+											"description": "I think Postman cannot go through the hashing",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/profile/0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile",
+										"0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit User Profile (Invalid Password)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "user1EDIT",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "user1",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "user1@test.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "122",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/profile/0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile",
+										"0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit User Profile (Fail)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "user1EDIT",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "user1",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "user1@test.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/profile/a",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile",
+										"a"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Game Statistics",
+					"item": [
+						{
+							"name": "Get Game Statistics (Success)",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/profile/0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile",
+										"0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Game Statistics (No Stats)",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "gameid",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "time",
+											"value": "56",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/profile/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Game Statistics (Fail)",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": []
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/profile/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile",
+										"5"
+									]
+								},
+								"description": "User does not exist."
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Games",
+			"item": [
+				{
+					"name": "Retrieve Games",
+					"item": [
+						{
+							"name": "Logged In",
+							"item": [
+								{
+									"name": "Get All Games (Success)",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/games/0",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"games",
+												"0"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get All Games (Fail)",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/games/a",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"games",
+												"a"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"description": "When user is logged in."
+						},
+						{
+							"name": "Not Logged In",
+							"item": [
+								{
+									"name": "Get All Games (Success)",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/games",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"games"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"description": "When there is no user session."
+						}
+					]
+				},
+				{
+					"name": "Search Games",
+					"item": [
+						{
+							"name": "Logged In",
+							"item": [
+								{
+									"name": "Search (Success)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "searchName",
+													"value": "Spider Man",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/search/0",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"search",
+												"0"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Search (Non-existent Game, Success)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "searchName",
+													"value": "sdqrw",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/search/0",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"search",
+												"0"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Search (Non-existent Game, Fail)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "searchName",
+													"value": "sdqrw",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/search/a",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"search",
+												"a"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Search (Empty Input, Success)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "searchName",
+													"value": "",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/search/0",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"search",
+												"0"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Search (Empty Input, Fail)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "searchName",
+													"value": "",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/search/a",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"search",
+												"a"
+											]
+										},
+										"description": "When search input is empty."
+									},
+									"response": []
+								}
+							],
+							"description": "When user is logged in.",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "Not Logged In",
+							"item": [
+								{
+									"name": "Search (Success)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "searchName",
+													"value": "Spider Man",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/search/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"search",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Search (Non-existent, Success)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "searchName",
+													"value": "sdqrw",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/search/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"search",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Search (Empty Input, Success)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "searchName",
+													"value": "",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/search/",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"search",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"description": "When there is no user session."
+						}
+					]
+				},
+				{
+					"name": "Playing Game",
+					"item": [
+						{
+							"name": "Logged In",
+							"item": [
+								{
+									"name": "Store Game Statistics (Success)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "userid",
+													"value": "0",
+													"type": "text"
+												},
+												{
+													"key": "gameid",
+													"value": "3",
+													"type": "text"
+												},
+												{
+													"key": "time",
+													"value": "10",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/games/store",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"games",
+												"store"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Store Game Statistics (Fail)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "userid",
+													"value": "0",
+													"type": "text"
+												},
+												{
+													"key": "gameid",
+													"value": "3",
+													"type": "text"
+												},
+												{
+													"key": "time",
+													"value": "",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/games/store",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"games",
+												"store"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Respective Game (Success)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/respectiveGames/0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"respectiveGames",
+										"0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Respective Game (Fail)",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/respectiveGames/a",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"respectiveGames",
+										"a"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "VISA",
+					"item": [
+						{
+							"name": "Successful Payment",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "gid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cardNo",
+											"value": "4168 9892 5976 9093",
+											"type": "text"
+										},
+										{
+											"key": "month",
+											"value": "9",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2021",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/payment/checkout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"payment",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Successful Payment (No Spacing)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "gid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cardNo",
+											"value": "4168989259769093",
+											"type": "text"
+										},
+										{
+											"key": "month",
+											"value": "9",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2021",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/payment/checkout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"payment",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid Card Number (Not Expired)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "gid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cardNo",
+											"value": "4168989259769999",
+											"type": "text"
+										},
+										{
+											"key": "month",
+											"value": "9",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2021",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/payment/checkout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"payment",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid Card Number (Expired)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "gid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cardNo",
+											"value": "4168989259769999",
+											"type": "text"
+										},
+										{
+											"key": "month",
+											"value": "9",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2020",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/payment/checkout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"payment",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Expired Card (Valid Card Number)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "gid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cardNo",
+											"value": "4168989259769999",
+											"type": "text"
+										},
+										{
+											"key": "month",
+											"value": "9",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2021",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/payment/checkout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"payment",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "MasterCard",
+					"item": [
+						{
+							"name": "Successful Payment",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "gid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cardNo",
+											"value": "2258 3792 9878 5547",
+											"type": "text"
+										},
+										{
+											"key": "month",
+											"value": "9",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2021",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/payment/checkout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"payment",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Successful Payment (No Spacing)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "gid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cardNo",
+											"value": "2258379298785547",
+											"type": "text"
+										},
+										{
+											"key": "month",
+											"value": "9",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2021",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/payment/checkout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"payment",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid Card Number (Not Expired)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "gid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cardNo",
+											"value": "2258379298789999",
+											"type": "text"
+										},
+										{
+											"key": "month",
+											"value": "9",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2021",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/payment/checkout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"payment",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid Card Number (Expired)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "gid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cardNo",
+											"value": "2258379298789999",
+											"type": "text"
+										},
+										{
+											"key": "month",
+											"value": "9",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2020",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/payment/checkout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"payment",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Expired Card (Valid Card Number)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "gid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cardNo",
+											"value": "2258379298785547",
+											"type": "text"
+										},
+										{
+											"key": "month",
+											"value": "9",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2020",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/payment/checkout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"payment",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "AmericanExpress",
+					"item": [
+						{
+							"name": "Successful Payment",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "gid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cardNo",
+											"value": "4168 9892 5976 9093",
+											"type": "text"
+										},
+										{
+											"key": "month",
+											"value": "9",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2021",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/payment/checkout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"payment",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Successful Payment (No Spacing)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "gid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cardNo",
+											"value": "348857511653127",
+											"type": "text"
+										},
+										{
+											"key": "month",
+											"value": "9",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2021",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/payment/checkout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"payment",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid Card Number (Not Expired)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "gid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cardNo",
+											"value": "348857511653999",
+											"type": "text"
+										},
+										{
+											"key": "month",
+											"value": "9",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2021",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/payment/checkout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"payment",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid Card Number (Expired)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "gid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cardNo",
+											"value": "348857511653999",
+											"type": "text"
+										},
+										{
+											"key": "month",
+											"value": "9",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2020",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/payment/checkout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"payment",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Expired Card (Valid Card Number)",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "gid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "cardNo",
+											"value": "348857511653127",
+											"type": "text"
+										},
+										{
+											"key": "month",
+											"value": "9",
+											"type": "text"
+										},
+										{
+											"key": "year",
+											"value": "2020",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/payment/checkout",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"payment",
+										"checkout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "Ban",
+					"item": [
+						{
+							"name": "Ban User (Success)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "banned",
+											"value": "true",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/dashboard/ban/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"dashboard",
+										"ban",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ban User (Fail 1)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "a",
+											"type": "text"
+										},
+										{
+											"key": "banned",
+											"value": "true",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/dashboard/ban/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"dashboard",
+										"ban",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ban User (Fail 2)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "5",
+											"type": "text"
+										},
+										{
+											"key": "banned",
+											"value": "true",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/dashboard/ban/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"dashboard",
+										"ban",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Unban",
+					"item": [
+						{
+							"name": "Unban User (Success)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "banned",
+											"value": "false",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/dashboard/unban/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"dashboard",
+										"unban",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unban User (Fail 1)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "a",
+											"type": "text"
+										},
+										{
+											"key": "banned",
+											"value": "false",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/dashboard/unban/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"dashboard",
+										"unban",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Unban User (Fail 2)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "uid",
+											"value": "5",
+											"type": "text"
+										},
+										{
+											"key": "banned",
+											"value": "false",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/dashboard/unban/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"dashboard",
+										"unban",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Display Dashboard (Success)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/dashboard/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"dashboard",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Log Username (Success)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/dashboard/getUN/0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"dashboard",
+								"getUN",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Log Username (Fail)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/dashboard/getUN/a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"dashboard",
+								"getUN",
+								"a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

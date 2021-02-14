@@ -19,7 +19,7 @@ function validateRegister() {
     
         .done(
             function(response) {
-                if (Object.keys(response).length > 0)
+                if (response.emailT === "false" && response.unT === "false")
                 {
                     sessionStorage.setItem("register", true);
                     
@@ -28,9 +28,22 @@ function validateRegister() {
     
                 else
                 {
-                    $("#rStatusMessage").html(`
-                    The email address you have entered has been associated with an existing account. Please try again with a different email.
-                    `);
+                    if (response.emailT === "false")
+                    {
+                        if (response.unT === "true")
+                        {
+                            $("#rStatusMessage").html(`
+                            The username you have entered has been associated with an existing account. Please try again with a different username.
+                            `);
+                        }
+                    }
+
+                    else
+                    {
+                        $("#rStatusMessage").html(`
+                        The email address you have entered has been associated with an existing account. Please try again with a different email.
+                        `);
+                    }
                 }
             }
         )

@@ -1,18 +1,20 @@
 var bodyParser = require('body-parser');
 const e = require('express');
 
+const date = require('date-and-time');
+
 const crypto = require('crypto');
 
 const Card = require('creditcards/card');
-
-var visa = require('creditcards-types/types/visa');
-var mastercard = require('creditcards-types/types/mastercard');
-var americanExpress = require('creditcards-types/types/american-express');
-
-const expiration = require('creditcards/expiration');
+var visa = require('creditcards-types/types/visa'); //VISA
+var mastercard = require('creditcards-types/types/mastercard'); //MASTERCARD
+var americanExpress = require('creditcards-types/types/american-express'); //AMEX
+const expiration = require('creditcards/expiration'); //EXPIRATION
 
 var db = require('./services/dataservice.js');
-const { Console } = require('console');
+const {
+    Console
+} = require('console');
 
 db.connect();
 
@@ -29,84 +31,78 @@ var routes = function () {
     });
 
     //Logout
-    router.get('/logout', function(req, res) {
+    router.get('/logout', function (req, res) {
         res.sendFile(__dirname + "/views/logout.html");
     });
 
     //Delete Page
-    router.get('/delete', function(req, res) {
+    router.get('/delete', function (req, res) {
         res.sendFile(__dirname + "/views/delete.html");
     });
 
     //CSS
-    router.get('/css/*', function(req, res) {
+    router.get('/css/*', function (req, res) {
         res.sendFile(__dirname + "/views/" + req.originalUrl);
     });
 
     //JavaScript Files
-    router.get('/js/*', function(req, res) {
+    router.get('/js/*', function (req, res) {
         res.sendFile(__dirname + "/views/" + req.originalUrl);
     });
 
     //Images
-    router.get('/images/*', function(req, res) {
+    router.get('/images/*', function (req, res) {
         res.sendFile(__dirname + "/views/" + req.originalUrl);
     });
 
     //Profile Page
-    router.get('/profile', function(req ,res) {
+    router.get('/profile', function (req, res) {
         res.sendFile(__dirname + "/views/profile.html");
-    })
+    });
 
     //Get User Profile
-    router.get('/api/profile/:uid', function(req, res){
+    router.get('/api/profile/:uid', function (req, res) {
         var userid = req.params.uid;
 
         db.getProfile(userid, function (err, user) {
-            if (err)
-            {
+            if (err) {
                 res.status(500).send("Unable to load profile. Please try again later.");
-            }
-
-            else
-            {
-                //Get Game Statistics By UID
-                db.getStatsByUID(userid, function (err, stats) {
-                    if (err)
-                    {
-                        res.status(500).send("Unable to load profile. Please try again later.");
-                    }
-
-                    else
-                    {
-                        console.log(Object.keys(stats).length);
-                        if (Object.keys(stats).length < 1 || stats === null || stats === undefined)
-                        {
-                            res.status(200).send({"user": user});
+            } else {
+                if (user === null) {
+                    res.status(500).send("User does not exist.");
+                } else {
+                    //Get Game Statistics By UID
+                    db.getStatsByUID(userid, function (err, stats) {
+                        if (err) {
+                            res.status(500).send("Unable to load profile. Please try again later.");
+                        } else {
+                            console.log(Object.keys(stats).length);
+                            if (Object.keys(stats).length < 1 || stats === null || stats === undefined) {
+                                res.status(200).send({
+                                    "user": user
+                                });
+                            } else {
+                                db.getAllGames(function (err, gamesT) {
+                                    if (err) {
+                                        res.status(500).send("failedToLoad");
+                                    } else {
+                                        res.status(200).send({
+                                            "user": user,
+                                            "games": gamesT,
+                                            "statistics": stats
+                                        });
+                                    }
+                                });
+                            }
                         }
-
-                        else
-                        {
-                            db.getAllGames(function (err, gamesT) {
-                                if (err)
-                                {
-                                    res.status(500).send("failedToLoad");
-                                }
-
-                                else
-                                {
-                                    res.status(200).send({"user": user, "games": gamesT, "statistics": stats});
-                                }
-                            });
-                        }
-                    }
-                });
+                    });
+                }
             }
         });
     })
 
     //Edit User Profile
-    router.put('/api/profile/:uid', function(req, res){
+    router.put('/api/profile/:uid', function (req, res) {
         var userid = req.params.uid;
 
         var data = req.body;
@@ -121,31 +117,21 @@ var routes = function () {
 
         //Check If Password Is Correct
         db.getUserByUIDnPass(userid, password, function (err, user) {
-            if (err)
-            {
+            if (err) {
                 res.status(500).send("Unable to update profile. Please try again later.");
-            }
-
-            else
-            {
-                if (user != null || user != undefined)
-                {
-                    console.log("Edit: " + data);
-                    db.updateProfile(userid, email, username, name, function(err, user) {
-                        if (err)
-                        {
+            } else {
+                if (user != null || user != undefined) {
+                    db.updateProfile(userid, email, username, name, function (err, user) {
+                        if (err) {
                             res.status(500).send("Unable to update profile. Please try again later.");
-                        }
-
-                        else
-                        {
+                        } else {
                             res.status(200).send(data);
                         }
                     });
                 }
 
-                else
-                {
+                //If Password Is Not Correct
+                else {
                     res.send({});
                 }
             }
@@ -161,13 +147,9 @@ var routes = function () {
         var atBox = data.allowTracking;
 
         db.updateSettings(userid, atBox, function (err, user) {
-            if (err)
-            {
+            if (err) {
                 res.status(500).send("Unable to configure account. Please try again later.");
-            }
-
-            else
-            {
+            } else {
                 res.status(200).send(data);
             }
         });
@@ -185,80 +167,52 @@ var routes = function () {
 
         //Verify User/Password
         db.getUserByUIDnPass(userid, vPassword, function (err, user) {
-            if (err)
-            {
+            if (err) {
                 res.status(500).send("Unable to delete your account. Please try again later.");
-            }
-
-            else
-            {
+            } else {
                 //Verified Password
-                if (user != null || user != undefined)
-                {
+                if (user != null || user != undefined) {
                     //Delete User Account
                     db.deleteAccount(userid, function (err, event) {
-                        if (err)
-                        {
+                        if (err) {
                             res.status(500).send("Unable to delete your account. Please try again later.");
                         }
 
                         //No Errors
-                        else
-                        {
-                            if (event === null || event === undefined)
-                            {
+                        else {
+                            if (event === null || event === undefined) {
                                 res.status(500).send("nolead");
-                            }
-
-                            else
-                            {
+                            } else {
                                 //Get Game Statistics By UID
-                                db.getStatsByUID(userid, function(err, stats) {
-                                    if (err)
-                                    {
+                                db.getStatsByUID(userid, function (err, stats) {
+                                    if (err) {
                                         res.status(500).send("Unable to delete your account. Please try again later.");
                                     }
 
                                     //No Errors
-                                    else
-                                    {
+                                    else {
                                         //No Stored Game Statistics
-                                        if (Object.keys(stats).length < 1 || stats === null || stats === undefined)
-                                        {
+                                        if (Object.keys(stats).length < 1 || stats === null || stats === undefined) {
                                             //Check For Order History
                                             db.checkOH(userid, function (err, orderhistory) {
-                                                if (err)
-                                                {
+                                                if (err) {
                                                     res.status(500).send("failedToLoad");
-                                                }
-                                
-                                                else
-                                                {
+                                                } else {
                                                     //No Order History
-                                                    if (Object.keys(orderhistory).length < 1 || orderhistory === null || orderhistory === undefined)
-                                                    {
+                                                    if (Object.keys(orderhistory).length < 1 || orderhistory === null || orderhistory === undefined) {
                                                         res.status(200).send("lead");
                                                     }
 
                                                     //Order History Is Present
-                                                    else
-                                                    {
+                                                    else {
                                                         //Delete Order History
                                                         db.deleteOH(userid, function (err, event) {
-                                                            if (err)
-                                                            {
+                                                            if (err) {
                                                                 res.status(500).send("Unable to delete your account. Please try again later.");
-                                                            }
-
-                                                            else
-                                                            {
-                                                                if (event === null || event === undefined)
-                                                                {
+                                                            } else {
+                                                                if (event === null || event === undefined) {
                                                                     res.status(500).send("nolead");
-                                                                }
-
-                                                                else
-                                                                {
+                                                                } else {
                                                                     res.status(200).send("lead");
                                                                 }
                                                             }
@@ -269,57 +223,32 @@ var routes = function () {
                                         }
 
                                         //Stored Game Statistics Is Present
-                                        else
-                                        {
+                                        else {
                                             //Delete Game Statistics
                                             db.deleteStats(userid, function (err, event) {
-                                                if (err)
-                                                {
+                                                if (err) {
                                                     res.status(500).send("Unable to delete your account. Please try again later.");
-                                                }
-
-                                                else
-                                                {
-                                                    if (event === null || event === undefined)
-                                                    {
+                                                } else {
+                                                    if (event === null || event === undefined) {
                                                         res.status(500).send("nolead");
-                                                    }
-
-                                                    else
-                                                    {
+                                                    } else {
                                                         //Check For Order History
                                                         db.checkOH(userid, function (err, orderhistory) {
-                                                            if (err)
-                                                            {
+                                                            if (err) {
                                                                 res.status(500).send("failedToLoad");
-                                                            }
-                                            
-                                                            else
-                                                            {
+                                                            } else {
                                                                 //No Order History
-                                                                if (Object.keys(orderhistory).length < 1 || orderhistory === null || orderhistory === undefined)
-                                                                {
+                                                                if (Object.keys(orderhistory).length < 1 || orderhistory === null || orderhistory === undefined) {
                                                                     res.status(200).send("lead");
-                                                                }
-
-                                                                else
-                                                                {
+                                                                } else {
                                                                     //Delete Order History
                                                                     db.deleteOH(userid, function (err, event) {
-                                                                        if (err)
-                                                                        {
+                                                                        if (err) {
                                                                             res.status(500).send("Unable to delete your account. Please try again later.");
-                                                                        }
-
-                                                                        else
-                                                                        {
-                                                                            if (event === null || event === undefined)
-                                                                            {
+                                                                        } else {
+                                                                            if (event === null || event === undefined) {
                                                                                 res.status(500).send("nolead");
-                                                                            }
-
-                                                                            else
-                                                                            {
+                                                                            } else {
                                                                                 res.status(200).send("lead");
                                                                             }
                                                                         }
@@ -339,8 +268,7 @@ var routes = function () {
                 }
 
                 //Invalid Password
-                else
-                {
+                else {
                     res.status(200).send("whatlead");
                 }
             }
@@ -348,42 +276,32 @@ var routes = function () {
     });
 
     //Get All Games
-    router.get('/api/games', function(req, res) {
+    router.get('/api/games', function (req, res) {
         db.getAllGames(function (err, games) {
-            if (err)
-            {
+            if (err) {
                 res.status(500).send("failedToLoad");
-            }
-
-            else
-            {
+            } else {
                 res.status(200).send(games);
             }
         });
     });
 
     //Get All Games (Logged In)
-    router.get('/api/games/:uid', function(req, res) {
+    router.get('/api/games/:uid', function (req, res) {
         var userid = req.params.uid;
 
         db.getAllGames(function (err, games) {
-            if (err)
-            {
-                res.status(500).send("failedToLoad");
-            }
-
-            else
-            {
+            if (err) {
+                res.status(500).send("Unable to retrieve games.");
+            } else {
                 db.checkOH(userid, function (err, orderhistory) {
-                    if (err)
-                    {
-                        res.status(500).send("failedToLoad");
-                    }
-    
-                    else
-                    {
-                        console.log(orderhistory);
-                        res.status(200).send({"games": games, "OH": orderhistory});
+                    if (err) {
+                        res.status(500).send("Unable to retrieve order history.");
+                    } else {
+                        res.status(200).send({
+                            "games": games,
+                            "OH": orderhistory
+                        });
                     }
                 });
             }
@@ -391,7 +309,7 @@ var routes = function () {
     });
 
     //Store Game Statistics
-    router.post('/api/games/store', function(req, res) {
+    router.post('/api/games/store', function (req, res) {
         var data = req.body;
 
         var uid = data.userid;
@@ -400,38 +318,22 @@ var routes = function () {
 
         //Retrieve Game Statistics with UID + GID
         db.getStats(uid, gid, function (err, stats) {
-            if (err)
-            {
+            if (err) {
                 res.status(500).send("Unable to get game statistics. Please contact a developer immediately!");
-            }
-
-            else
-            {
-                if (Object.keys(stats).length < 1)
-                {
+            } else {
+                if (Object.keys(stats).length < 1) {
                     db.addStats(uid, gid, t, function (err, stat) {
-                        if (err)
-                        {
+                        if (err) {
                             res.status(500).send("Unable to store game statistics. Please contact a developer immediately!");
-                        }
-
-                        else
-                        {
+                        } else {
                             res.status(200).send(data);
                         }
                     });
-                }
-
-                else
-                {
+                } else {
                     db.updateStats(uid, gid, t, function (err, stat) {
-                        if (err)
-                        {
+                        if (err) {
                             res.status(500).send("Unable to update game statistics. Please contact a developer immediately!");
-                        }
-
-                        else
-                        {
+                        } else {
                             res.status(200).send(data);
                         }
                     });
@@ -441,53 +343,77 @@ var routes = function () {
     });
 
     //Registration Page
-    router.get('/register', function(req,res) {
+    router.get('/register', function (req, res) {
         res.sendFile(__dirname + "/views/register.html");
     });
 
     //Send Registration Input from User
     router.post('/api/register', function (req, res) {
         var data = req.body;
-    
+
+        var username = data.username;
+        var name = data.name;
         var email = data.email;
+        var password = data.password;
 
         var emailCheck;
 
         const lHash = crypto.createHash("sha512");
 
-        db.getUserByE(email, function(err, user) {
+        //Retrieve User By Email
+        db.getUserByE(email, function (err, user) {
 
-            if (err)
-            {
-                res.status(500).send("Unable to register. Please try again later.");
-            }
-
-            else
-            {
-                if (Object.keys(user).length < 1 || user === null || user === undefined)
-                {
+            if (err) {
+                res.status(500).send("Unable to retrieve user by email. Please try again.");
+            } else {
+                //Check If Email Exists in DB
+                if (Object.keys(user).length < 1 || user === null || user === undefined) {
                     emailCheck = false;
-                }
-
-                else
-                {
+                } else {
                     emailCheck = true;
                 }
 
                 console.log("Email Check: " + emailCheck);
 
-                if (emailCheck === false)
-                {
-                    db.addUser(data.username, data.name, data.email, 
-                        lHash.update(data.password).digest("hex"),
-                        function (err, user) {
-                            res.status(200).send({"register" : true});
-                        });
+                //Email Does Not Exist in DB
+                if (emailCheck === false) {
+                    //Retrieve User By Username
+                    db.getUserByUN(username, function (err, user) {
+                        if (err) {
+                            res.status(500).send("Unable to retrieve user by username. Please try again.");
+                        } else {
+                            //Check If Username Exists in DB
+                            if (Object.keys(user).length < 1) {
+                                //Register User into DB
+                                db.addUser(username, name, email, lHash.update(password).digest("hex"), function (err, user) {
+                                    if (err) {
+                                        res.status(500).send("Unable to register account. Please try again later.");
+                                    } else {
+                                        res.status(200).send({
+                                            "emailT": "false",
+                                            "unT": "false"
+                                        });
+                                    }
+                                });
+                            }
+
+                            //Username Exists in DB
+                            else {
+                                res.status(200).send({
+                                    "emailT": "false",
+                                    "unT": "true"
+                                });
+                            }
+                        }
+                    });
                 }
 
-                else
-                {
-                    res.status(200).send({});
+                //Email Exists in DB
+                else {
+                    res.status(200).send({
+                        "emailT": "true",
+                        "unT": "false"
+                    });
                 }
             }
         });
@@ -504,41 +430,50 @@ var routes = function () {
 
         var email = data.lEmail;
 
-        console.log(data.lPassword);
+        var lPassword = data.lPassword;
 
         const lHash = crypto.createHash("sha512");
-        var password = lHash.update(data.lPassword).digest("hex");
+        var password = lHash.update(lPassword).digest("hex");
 
         var userCheck;
 
+        //Retrieve User By Email & Password
         db.getUserByEP(email, password, function (err, user) {
 
-            if (err)
-            {
+            if (err) {
                 res.status(500).send("Unable to login. Please try again later");
-            }
-
-            else
-            {
-                if (user === undefined || user === null)
-                {
+            } else {
+                //Verify User
+                if (user === undefined || user === null) {
                     userCheck = false;
                 }
 
-                else
-                {
+                //User Is Verified
+                else {
                     userCheck = true;
                 }
-                
+
                 console.log("User Check: " + userCheck);
 
-                if (userCheck)
-                {
-                    res.status(200).send(user);
-                }
+                //If User Is Verified
+                if (userCheck) {
+                    const dateObj = new Date();
 
-                else
-                {
+                    var df = date.format(dateObj, 'YYYY/MM/DD HH:mm:ss');
+
+                    var description = `${user.username} logged into the system.`;
+                    var category = "Authentication";
+
+                    var timestamp = date.parse(df, 'YYYY/MM/DD HH:mm:ss', true);
+
+                    db.createLog(user.userid, description, category, timestamp, function (err, log) {
+                        if (err) {
+                            res.status(500).send("Unable to login. Please try again later");
+                        } else {
+                            res.status(200).send(user);
+                        }
+                    });
+                } else {
                     res.status(200).send("zero");
                 }
             }
@@ -550,35 +485,27 @@ var routes = function () {
         var userid = req.params.uid;
         var name = req.body.searchName;
 
-        db.searchGame(name, function(err, games) {
-            if (err)
-            {
-                res.status(500).send("Unable to search for games. Please try again later");
-            }
-
-            else
-            {
+        //Retrieve Games Based On Search
+        db.searchGame(name, function (err, games) {
+            if (err) {
+                res.status(500).send("Unable to search for games. Please try again later.");
+            } else {
                 //Empty Search String
-                if (name === "" || name === null || name === undefined)
-                {
+                if (name === "" || name === null || name === undefined) {
+                    //Retrieve All Games
                     db.getAllGames(function (err, games) {
-                        if (err)
-                        {
-                            res.status(500).send("failedToLoad");
-                        }
-            
-                        else
-                        {
+                        if (err) {
+                            res.status(500).send("Unable to retrieve games.");
+                        } else {
+                            //Check For Order History
                             db.checkOH(userid, function (err, orderhistory) {
-                                if (err)
-                                {
-                                    res.status(500).send("failedToLoad");
-                                }
-                
-                                else
-                                {
-                                    console.log(orderhistory);
-                                    res.status(200).send({"games": games, "OH": orderhistory});
+                                if (err) {
+                                    res.status(500).send("Unable to retrieve order history.");
+                                } else {
+                                    res.status(200).send({
+                                        "games": games,
+                                        "OH": orderhistory
+                                    });
                                 }
                             });
                         }
@@ -586,18 +513,16 @@ var routes = function () {
                 }
 
                 //Got Search Input From User
-                else
-                {
+                else {
                     db.checkOH(userid, function (err, orderhistory) {
-                        if (err)
-                        {
-                            res.status(500).send("failedToLoad");
-                        }
-        
-                        else
-                        {
+                        if (err) {
+                            res.status(500).send("Unable to retrieve order history.");
+                        } else {
                             console.log(orderhistory);
-                            res.status(200).send({"games": games, "OH": orderhistory});
+                            res.status(200).send({
+                                "games": games,
+                                "OH": orderhistory
+                            });
                         }
                     });
                 }
@@ -609,23 +534,16 @@ var routes = function () {
     router.post('/api/search', function (req, res) {
         var name = req.body.searchName;
 
-        db.searchGame(name, function(err, games) {
-            if (err)
-            {
+        //Retrieve Games Based On Search
+        db.searchGame(name, function (err, games) {
+            if (err) {
                 res.status(500).send("Unable to search for games. Please try again later");
-            }
-
-            else
-            {
-                if (name === "" || name === null || name === undefined)
-                {
+            } else {
+                if (name === "" || name === null || name === undefined) {
                     db.getAllGames(function (err, games) {
                         res.status(200).send(games);
                     });
-                }
-
-                else
-                {
+                } else {
                     res.status(200).send(games);
                 }
             }
@@ -637,93 +555,104 @@ var routes = function () {
         res.sendFile(__dirname + "/views/dashboard.html");
     });
 
-    //Display Users on Dashboard
-    router.get('/api/dashboard/users', function (req, res) {
+    //Display Users & Logs on Dashboard
+    router.get('/api/dashboard', function (req, res) {
+
+        //Retrieve Users
         db.getAllUsers(function (err, users) {
-            res.send(users);
+            if (err) {
+                res.status(500).send("Failed to load dashboard. Please try again later.");
+            } else {
+                //Retrieve Logs
+                db.getLog(function (err, logs) {
+                    if (err) {
+                        res.status(500).send("");
+                    } else {
+                        res.status(200).send({
+                            "u": users,
+                            "l": logs
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    //Retrieve Log Username
+    router.get('/api/dashboard/getUN/:uid', function (req, res) {
+        var userid = req.params.uid;
+
+        db.getProfile(userid, function (err, user) {
+
+            console.log(user);
+            if (err) {
+                res.status(500).send("Failed to retrieve user");
+            } else {
+                res.status(200).send(user);
+            }
         });
     });
 
     //Ban User
-    router.put('/api/dashboard/ban/:uid', function (req, res) {
-        var userid = req.params.uid;
+    router.put('/api/dashboard/ban', function (req, res) {
 
         var data = req.body;
 
+        var userid = data.uid;
         var banStatus = data.banned;
 
+        //Retrieve User
         db.getProfile(userid, function (err, user) {
-            if (err)
-            {
-                res.status(500).send("Unable to load profile. Please try again later");
-            }
-
-            else
-            {
-                if (Object.keys(user).length > 0 || user != null || user != undefined)
-                {
-                    db.updateBanStatus(userid, banStatus, function(err, user) {
-                        if (err)
-                        {
+            if (err) {
+                res.status(500).send("Unable to retrieve user information. Please try again later.");
+            } else {
+                if (user != null || user != undefined) {
+                    //Update Ban Status
+                    db.updateBanStatus(userid, banStatus, function (err, user) {
+                        if (err) {
                             res.status(500).send("Unable to execute action. Please try again later.");
-                        }
-            
-                        else
-                        {
+                        } else {
                             res.status(200).send(data);
                         }
                     });
-                }
-
-                else
-                {
-                    res.send(500).send("Unable to execute action. Please try again later.");
+                } else {
+                    res.status(500).send("Unable to execute action. Please try again later.");
                 }
             }
         });
     });
 
     //Unban User
-    router.put('/api/dashboard/unban/:uid', function (req, res) {
-        var userid = req.params.uid;
+    router.put('/api/dashboard/unban', function (req, res) {
 
         var data = req.body;
 
+        var userid = data.uid;
         var banStatus = data.banned;
 
+        //Retrieve User
         db.getProfile(userid, function (err, user) {
-            if (err)
-            {
+            if (err) {
                 res.status(500).send("Unable to retrieve user information. Please try again later");
-            }
-
-            else
-            {
-                if (Object.keys(user).length > 0 || user != null || user != undefined)
-                {
-                    db.updateBanStatus(userid, banStatus, function(err, user) {
-                        if (err)
-                        {
+            } else {
+                if (user != null || user != undefined) {
+                    //Update Ban Status
+                    db.updateBanStatus(userid, banStatus, function (err, user) {
+                        if (err) {
                             res.status(500).send("Unable to execute action. Please try again later.");
-                        }
-            
-                        else
-                        {
+                        } else {
                             res.status(200).send(data);
                         }
                     });
-                }
-
-                else
-                {
-                    res.send(500).send("Unable to execute action. Please try again later.");
+                } else {
+                    res.status(500).send("Unable to execute action. Please try again later.");
                 }
             }
         });
     });
 
     //Open A New Window (Game)
-    router.get('/games/:gid', function(req, res) {
+    router.get('/games/:gid', function (req, res) {
         res.sendFile(__dirname + "/views/playing.html");
     });
 
@@ -732,20 +661,12 @@ var routes = function () {
         var gameid = req.params.gid;
 
         db.getGame(gameid, function (err, game) {
-            if (err)
-            {
+            if (err) {
                 res.status(500).send("Unable to load game. Please try again later");
-            }
-
-            else
-            {
-                if (game != undefined || game != null)
-                {
+            } else {
+                if (game != undefined || game != null) {
                     res.status(200).send(game);
-                }
-
-                else
-                {
+                } else {
                     res.status(500).send("Unable to load game. Please try again later.");
                 }
             }
@@ -775,51 +696,43 @@ var routes = function () {
         var syear = data.year;
 
         const card = Card([visa, mastercard, americanExpress]);
-        const cardCheck =  card.isValid(card.parse(cardNum));
+        const cardCheck = card.isValid(card.parse(cardNum));
 
         //Check For Expiration
         const expirationCheck = expiration.isPast(smonth, syear);
 
         //If CardNumber Is Valid
-        if (cardCheck)
-        {
+        if (cardCheck) {
             //If Not Expired
-            if (!expirationCheck)
-            {
+            if (!expirationCheck) {
                 db.addOH(suid, sgid, sgameprice, function (err, orderHistory) {
                     //Error
-                    if (err)
-                    {
+                    if (err) {
                         res.status(500).send("fail");
                     }
 
                     //Successfully Added Order Transaction
-                    else
-                    {
+                    else {
                         res.status(200).send("success");
                     }
                 });
             }
 
             //If Expired
-            else
-            {
+            else {
                 res.status(200).send("Exped");
             }
         }
 
         //If CardNumber Is Not Valid
-        else
-        {
+        else {
             //If Not Expired
-            if (!expirationCheck)
-            {
+            if (!expirationCheck) {
                 res.status(200).send("wrongCard");
             }
 
             //If Expired
-            else
-            {
+            else {
                 res.status(200).send("wrongCardandExped");
             }
         }

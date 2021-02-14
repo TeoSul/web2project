@@ -1,0 +1,111 @@
+[{
+  "_id": {
+    "$oid": "5ff91b8a89507634dc77be6a"
+  },
+  "gameid": 0,
+  "image": "./images/spiderman.jpg",
+  "name": "Spider Man",
+  "genre": "RPG",
+  "price": 70,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5ff91bd90d7b146d6c1b415d"
+  },
+  "gameid": 1,
+  "image": "./images/callofduty.jpg",
+  "name": "Call Of Duty",
+  "genre": "FPS",
+  "price": 30,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5ff91cd7a6101a1ec88e60a3"
+  },
+  "gameid": 2,
+  "image": "./images/dota2.jpg",
+  "name": "Dota 2",
+  "genre": "MOBA",
+  "price": 0,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5ff91d9acb7f014ed4d9a012"
+  },
+  "gameid": 3,
+  "image": "./images/fortnite.jpg",
+  "name": "Fortnite",
+  "genre": "MOBA",
+  "price": 0,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5ff91dc10ac88187041455a4"
+  },
+  "gameid": 4,
+  "image": "./images/gta5.jpg",
+  "name": "Grand Theft Auto 5",
+  "genre": "Open World",
+  "price": 42,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "5ff91edd3305527ed4929038"
+  },
+  "gameid": 5,
+  "image": "./images/leagueoflegends.jpg",
+  "name": "League of Legends",
+  "genre": "MOBA",
+  "price": 0,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6019045a57117ee8ac1a87c1"
+  },
+  "gameid": 6,
+  "image": "./images/minecraft.jpg",
+  "name": "Minecraft",
+  "genre": "Open World",
+  "price": 15,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6019053457117ee8ac1a87c3"
+  },
+  "gameid": "7",
+  "image": "./images/terraria.jpg",
+  "name": "Terraria",
+  "genre": "Open World",
+  "price": "10",
+  "__v": "0"
+},{
+  "_id": {
+    "$oid": "6019066f57117ee8ac1a87c5"
+  },
+  "gameid": 8,
+  "image": "./images/theLastOfUs.jpg",
+  "name": "The Last Of Us",
+  "genre": "Action Adventure",
+  "price": 20,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6019088657117ee8ac1a87c6"
+  },
+  "gameid": 9,
+  "image": "./images/tf2.jpg",
+  "name": "Team Fortress 2",
+  "genre": "FPS",
+  "price": 20,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "601908d257117ee8ac1a87c7"
+  },
+  "gameid": 10,
+  "image": "./images/valorant.jpg",
+  "name": "Valorant",
+  "genre": "FPS",
+  "price": 35,
+  "__v": 0
+}]

@@ -8,11 +8,13 @@ var schema = mongoose.Schema;
 var autoIncrement = require('mongoose-auto-increment');
 
 var userSchema = {};
+var logSchema = {};
 var gameSchema = {};
 var statSchema = {};
 var orderhistorySchema = {};
 
 var userModel;
+var logModel;
 var gameModel;
 var statModel;
 var orderhistoryModel;
@@ -28,7 +30,7 @@ var database = {
             if (err == null) {
                 console.log("Connected to Mongo DB");
 
-                //Initialize values
+                //Users
                 userSchema = schema({
                     userid: Number,
                     username: String,
@@ -37,8 +39,17 @@ var database = {
                     password: String,
                     allowTracking: Boolean,
                     banned: Boolean,
-                    admin: Boolean
+                    role: String
 
+                });
+
+                //Logging
+                logSchema = schema({
+                    logid: Number,
+                    userid: Number,
+                    description: String,
+                    category: String,
+                    timestamp: Date,
                 });
 
                 //Games
@@ -63,7 +74,6 @@ var database = {
                     orderid: Number,
                     userid: Number,
                     gameid: Number,
-                    gameprice: Number
                 });
 
                 var connection = mongoose.connection;
@@ -73,6 +83,11 @@ var database = {
                 userSchema.plugin(autoIncrement.plugin, {
                     model: 'userModel',
                     field: 'userid'
+                });
+
+                logSchema.plugin(autoIncrement.plugin, {
+                    model: 'logModel',
+                    field: 'logid'
                 });
 
                 gameSchema.plugin(autoIncrement.plugin, {
@@ -91,6 +106,7 @@ var database = {
                 });
 
                 userModel = connection.model("users", userSchema);
+                logModel = connection.model("logs", logSchema);
                 gameModel = connection.model("games", gameSchema);
                 statModel = connection.model("stats", statSchema);
                 orderhistoryModel = connection.model("orderhistories", orderhistorySchema);
@@ -113,10 +129,27 @@ var database = {
             password: p,
             allowTracking: true,
             banned: false,
-            admin: false
+            role: "Member"
         });
 
         newUser.save(callback);
+    },
+
+    //Get Log
+    getLog: function(callback) {
+        logModel.find({}, callback);
+    },
+    
+    //Create Log
+    createLog: function (uid, d, c, ts, callback) {
+        var newLog = new logModel({
+            userid: uid,
+            description: d,
+            category: c,
+            timestamp: ts
+        });
+
+        newLog.save(callback);
     },
 
     //Check for/Retrieve stat documents with UID + GID
@@ -176,6 +209,13 @@ var database = {
     getUserByE: function (rEmail, callback) {
         userModel.find({
             email: rEmail
+        }, callback);
+    },
+
+    //By username only
+    getUserByUN: function (rUsername, callback) {
+        userModel.find({
+            username: rUsername
         }, callback);
     },
 
